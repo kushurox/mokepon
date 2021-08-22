@@ -5,7 +5,7 @@ from spriteClasses.characters import Player  # All the Game entities will be def
 
 pygame.init()
 
-size = width, height = 600, 600  # Setting the screen resolution
+size = width, height = 1400, 800  # Setting the screen resolution
 
 all_sprites = pygame.sprite.Group()  # Will contain all game entities and updates them
 
