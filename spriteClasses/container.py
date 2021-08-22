@@ -21,9 +21,12 @@ class Air(pygame.sprite.Sprite):
         self.rect.y = pos[1]
 
     def update(self, *args):
-        if args and not self.occupied:
+        s = not self.occupied
+        if args:
             if self.rect.collidepoint(*args[0]):
-                self.image.fill(HOVER_CONTAINER)
                 self.groups()[0].current_tile = self
-            else:
+
+            if s and self.rect.collidepoint(*args[0]):
+                self.image.fill(HOVER_CONTAINER)
+            elif s:
                 self.image.fill(DEFAULT_CONTAINER)

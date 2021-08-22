@@ -36,9 +36,16 @@ while gameRun:
             gameRun = False
 
         if event.type == pygame.MOUSEBUTTONUP:
-            a = containers.get_current_tile()
-            a.occupied = True
-            a.image.fill(BLACK)
+            if event.button == 3:
+                print("Ran")
+                a = containers.get_current_tile()
+                print(a.occupied)
+                a.occupied = False
+            elif event.button == 1:
+                a = containers.get_current_tile()
+                print(containers.sprites().index(a))
+                a.occupied = True
+                a.image.fill(BLACK)
 
     containers.update(pygame.mouse.get_pos())
     screen.fill(BLACK)
