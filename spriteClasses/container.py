@@ -3,7 +3,6 @@ from utils.color import DEFAULT_CONTAINER, HOVER_CONTAINER
 
 
 class Air(pygame.sprite.Sprite):
-
     occupied = False
 
     def __init__(self, size, color, pos):
@@ -30,3 +29,10 @@ class Air(pygame.sprite.Sprite):
                 self.image.fill(HOVER_CONTAINER)
             elif s:
                 self.image.fill(DEFAULT_CONTAINER)
+
+    def set_terrain(self, t):
+        x, y = self.rect.x, self.rect.y
+        self.image = t.original.copy()
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y

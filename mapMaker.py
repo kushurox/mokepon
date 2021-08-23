@@ -14,6 +14,10 @@ class Containers(pygame.sprite.Group):
         return self.current_tile
 
 
+class Assets(Containers):
+    pass
+
+
 pygame.init()
 
 size = width, height = 700, 600
@@ -32,6 +36,8 @@ cam = EditorCamera(0, 0)
 lmb_d = False
 rmb_d = False
 
+SELECTED_TILE = None
+
 y = 0
 
 for i in range(canvas_height // 50):  # Loads Map Area
@@ -45,7 +51,7 @@ ay = 0
 ax = 600
 
 surfaces = os.listdir("assets/surfaces")
-assets = pygame.sprite.Group()
+assets = Assets()
 
 total = len(surfaces)
 
@@ -88,7 +94,10 @@ while gameRun:
                 task()
 
         if CONTEXT:  # Checks if he is selecting any asset
-            pass
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    assets.update(mx, my)
+                    SELECTED_TILE = assets.get_current_tile()
         else:
             if event.type == pygame.MOUSEBUTTONDOWN:  # Checks if a mouse button was pressed
                 if event.button == 3:
@@ -112,9 +121,9 @@ while gameRun:
                 elif lmb_d:  # Left Click
                     a = containers.get_current_tile()
                     a.occupied = True
-                    a.image.fill(BLACK)
+                    a.set_terrain(SELECTED_TILE)
 
-    containers.update((mx+cam.x_offset, my+cam.y_offset))
+    containers.update((mx + cam.x_offset, my + cam.y_offset))
     screen.fill(BLACK)
     screen.blit(canvas, (0, 0), (cam.begin_x, cam.begin_y, width - 100, height))
     containers.draw(canvas)
