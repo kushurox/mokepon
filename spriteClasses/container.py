@@ -5,6 +5,8 @@ from utils.color import DEFAULT_CONTAINER, HOVER_CONTAINER
 class Air(pygame.sprite.Sprite):
     occupied = False
 
+    block_id = -1
+
     def __init__(self, size, color, pos):
         super(Air, self).__init__()
 
@@ -36,3 +38,8 @@ class Air(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.block_id = t.block_id
+
+    def reset_stats(self):
+        self.occupied = False
+        self.block_id = -1

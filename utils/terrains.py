@@ -2,15 +2,24 @@ import pygame
 
 DIR = "assets/surfaces"
 
+ids = {
+    'ghas.png': 0,
+    'hill.png': 1
+}
+
 
 class Terrain(pygame.sprite.Sprite):
     collision = False
     occupied = False
 
+    block_id = 0
+
     def __init__(self, name):
         super(Terrain, self).__init__()
         self.selected_surf = pygame.Surface([50, 50])
         self.selected_surf.fill((255, 0, 0))
+
+        self.block_id = ids[name]
 
         self.image = pygame.image.load(DIR + "/" + name).convert_alpha()
         self.original = self.image

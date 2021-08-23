@@ -1,5 +1,5 @@
 import pygame
-
+from pygame.time import Clock
 import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player  # All the Game entities will be defined here
 
@@ -16,14 +16,15 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("mokepon")  # Setting up screen title
 
 run = True
-
+clock = Clock()
 while run:
+    dt = clock.tick(30)/1000
     for event in pygame.event.get():  # Looping through all events
         if event.type == pygame.QUIT:
             run = False
 
-    # all_sprites.update()  # Updates all the entities
     screen.fill(colors.BLACK)
+    all_sprites.update(dt)  # Updates all the entities
     all_sprites.draw(screen)  # Draws all the entities on the screen
     pygame.display.flip()  # Updates the screen
 
