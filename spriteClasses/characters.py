@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, color, pos):
         super(Player, self).__init__()
 
-        self.image = pygame.image.load("assets/pkmn boy.png")
+        self.image = pygame.image.load("assets/testpmnboy.png")
         self.image = pygame.transform.scale(self.image, self.PLAYER_SIZE)
 
         self.rect = self.image.get_rect()
