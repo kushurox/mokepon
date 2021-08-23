@@ -14,8 +14,6 @@ class Containers(pygame.sprite.Group):
         return self.current_tile
 
 
-
-
 pygame.init()
 
 size = width, height = 700, 600
@@ -43,7 +41,6 @@ for i in range(canvas_height // 50):  # Loads Map Area
         x += 50
     y += 50
 
-
 ay = 0
 ax = 600
 
@@ -62,10 +59,8 @@ for i in surfaces:
         ay += 50
     ax += 50
 
-
 cam_y_offset = 0
 cam_x_offset = 0
-
 
 funcs = {
     pygame.K_UP: cam.up,
@@ -73,8 +68,6 @@ funcs = {
     pygame.K_LEFT: cam.left,
     pygame.K_RIGHT: cam.right
 }
-
-
 
 CONTEXT = 0
 
@@ -93,7 +86,6 @@ while gameRun:
             task = funcs.get(event.key)
             if task:
                 task()
-
 
         if CONTEXT:  # Checks if he is selecting any asset
             pass
@@ -122,9 +114,9 @@ while gameRun:
                     a.occupied = True
                     a.image.fill(BLACK)
 
-    containers.update(pygame.mouse.get_pos())
+    containers.update((mx+cam.x_offset, my+cam.y_offset))
     screen.fill(BLACK)
-    screen.blit(canvas, (0, 0), (cam.begin_x, cam.begin_y, width-100, height))
+    screen.blit(canvas, (0, 0), (cam.begin_x, cam.begin_y, width - 100, height))
     containers.draw(canvas)
     assets.draw(screen)
     pygame.display.flip()
