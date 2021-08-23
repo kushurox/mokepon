@@ -1,5 +1,6 @@
 import pygame
 from spriteClasses.container import Air
+from utils.camera import EditorCamera
 from utils.color import BLACK
 import os
 
@@ -13,6 +14,8 @@ class Containers(pygame.sprite.Group):
         return self.current_tile
 
 
+
+
 pygame.init()
 
 size = width, height = 700, 600
@@ -23,14 +26,19 @@ gameRun = True
 
 containers = Containers()
 
+canvas_size = canvas_width, canvas_height = 1400, 900
+canvas = pygame.Surface(canvas_size)
+
+cam = EditorCamera(0, 0)
+
 lmb_d = False
 rmb_d = False
 
 y = 0
 
-for i in range(height // 50):  # Loads Map Area
+for i in range(canvas_height // 50):  # Loads Map Area
     x = 0
-    for j in range((width - 100) // 50):
+    for j in range(canvas_width // 50):
         containers.add(Air((50, 50), (0, 0, 55), (x, y)))
         x += 50
     y += 50
@@ -55,8 +63,16 @@ for i in surfaces:
     ax += 50
 
 
+cam_y_offset = 0
+cam_x_offset = 0
 
 
+funcs = {
+    pygame.K_UP: cam.up,
+    pygame.K_DOWN: cam.down,
+    pygame.K_LEFT: cam.left,
+    pygame.K_RIGHT: cam.right
+}
 
 
 
@@ -72,6 +88,12 @@ while gameRun:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             gameRun = False
+
+        if event.type == pygame.KEYUP:
+            task = funcs.get(event.key)
+            if task:
+                task()
+
 
         if CONTEXT:  # Checks if he is selecting any asset
             pass
@@ -102,7 +124,8 @@ while gameRun:
 
     containers.update(pygame.mouse.get_pos())
     screen.fill(BLACK)
-    containers.draw(screen)
+    screen.blit(canvas, (0, 0), (cam.begin_x, cam.begin_y, width-100, height))
+    containers.draw(canvas)
     assets.draw(screen)
     pygame.display.flip()
 
