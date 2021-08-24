@@ -1,5 +1,8 @@
 import pygame
 
+from utils.color import RED
+from utils.constants import default_sprite_res
+
 DIR = "assets/surfaces"
 
 ids = {
@@ -17,8 +20,8 @@ class Terrain(pygame.sprite.Sprite):
 
     def __init__(self, name):
         super(Terrain, self).__init__()
-        self.selected_surf = pygame.Surface([50, 50])
-        self.selected_surf.fill((255, 0, 0))
+        self.selected_surf = pygame.Surface(default_sprite_res)
+        self.selected_surf.fill(RED)
 
         self.block_id = ids[name]
 

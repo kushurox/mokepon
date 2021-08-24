@@ -1,20 +1,20 @@
 import pygame
-walk_left  = []
-walk_right = []
-walk_up    = []
-walk_down  = []
-idle       = [pygame.image.load()]
+# walk_left  = []
+# walk_right = []
+# walk_up    = []
+# walk_down  = []
+# idle       = [pygame.image.load()]
 
 class Player(pygame.sprite.Sprite):
 
-    next_bob = 1
+    next_bob = 0.5
 
     status = False
 
     PLAYER_SIZE = (50, 50)
     bobs = {
-        True: pygame.image.load("assets/mkpngirl.gif"),
-        False: pygame.image.load("assets/testpmnboy.png")
+        True: pygame.image.load("assets/char_animation/boy_idle/mpknboy1.png"),
+        False: pygame.image.load("assets/char_animation/boy_idle/mpknboy2.png")
     }
 
     def __init__(self, color, pos):
@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         if self.next_bob <= 0:
             self.image = self.bobs[self.status]
             self.status = not self.status
-            self.next_bob = 1
+            self.next_bob = 0.5
 
 
 
