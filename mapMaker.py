@@ -83,7 +83,7 @@ CONTEXT = 0
 
 to_save = False
 
-f_name = pygame.font.Font('assets/fonts/MagicOwlPersonalUse-WyO0O.otf', 32)
+f_name = pygame.font.Font('assets/fonts/firasans-book.ttf', 32)
 filename_s = ""
 
 save_canvas = pygame.Surface((400, 200))
@@ -146,7 +146,7 @@ while gameRun:
                 filename = f_name.render(filename_s, True, BLACK, GREEN)
                 save_canvas.blit(filename, (50, 70))
 
-            f = pygame.font.Font("assets/fonts/MagicOwlPersonalUse-WyO0O.otf", 32)
+            f = pygame.font.Font("assets/fonts/firasans-book.ttf", 32)
             text = f.render("File Name", True, BLACK, GREEN)
             textRect = text.get_rect()
 
