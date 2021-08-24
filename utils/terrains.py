@@ -3,8 +3,9 @@ import pygame
 DIR = "assets/surfaces"
 
 ids = {
-    'ghas.png': 0,
-    'hill.png': 1
+    'ghas.png'  :  0,
+    'hill.png'  :  1,
+    'grass1.png':  2
 }
 
 

@@ -1,5 +1,9 @@
 import pygame
-
+walk_left  = []
+walk_right = []
+walk_up    = []
+walk_down  = []
+idle       = [pygame.image.load()]
 
 class Player(pygame.sprite.Sprite):
 
