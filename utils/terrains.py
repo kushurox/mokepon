@@ -1,3 +1,4 @@
+import pandas
 import pygame
 
 from utils.color import RED
@@ -15,7 +16,9 @@ ids = {
     'stairs.png': 7
 }
 
-rev_ids = {}
+collide_id = [1, 3, 4, -1]
+
+rev_ids = {-1: pygame.image.load(f"{DIR}/hill.png")}
 
 for key, val in ids.items():
     rev_ids[val] = pygame.image.load(f"{DIR}/{key}")
@@ -58,10 +61,11 @@ class Terrain(pygame.sprite.Sprite):
 class GameTerrain(pygame.Surface):
     collide = False
 
-    def __init__(self, s, block_id, can_collide: bool):
+    def __init__(self, s, block_id):
         super(GameTerrain, self).__init__(s)
         self.rect = self.get_rect()
-        self.collide = can_collide
+        if block_id in collide_id:
+            self.collide = True
         self.block_id = block_id
         self.blit(rev_ids[self.block_id], (0, 0))
 
@@ -85,5 +89,19 @@ class Terrains:
             surface.blit(tile, (tile.rect.x, tile.rect.y))
 
 
-def load_map():
-    pass
+def load_map(map_name: str) -> Terrains:
+    y = 0
+    _map = Terrains()
+    df = pandas.read_csv(map_name).values
+    for row in df:
+        x = 0
+        for block in row:
+            t = GameTerrain(default_sprite_res, block)
+            t.rect.x = x
+            t.rect.y = y
+            x += 50
+            _map.add(t)
+        y += 50
+    return _map
+
+

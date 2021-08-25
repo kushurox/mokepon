@@ -3,15 +3,10 @@ from pygame.time import Clock
 import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player  # All the Game entities will be defined here
 from utils.constants import window_size
-from utils.terrains import GameTerrain, Terrains
+from utils.terrains import GameTerrain, Terrains, load_map
 from utils.constants import default_sprite_res
 
 pygame.init()
-test_tile = GameTerrain(default_sprite_res, 1, False)
-characters = pygame.sprite.Group()  # Will contain all game entities and updates them
-
-p1 = Player(colors.WHITE, test_tile)  # Making a Player entity
-characters.add(p1)  # Adding it to the all_sprites container
 
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("mokepon")  # Setting up screen title
@@ -21,8 +16,14 @@ run = True
 clock = Clock()
 gameMenu = True
 
-whole_map = Terrains()
+whole_map = load_map('maps/sniec.csv')
 
+characters = pygame.sprite.Group()  # Will contain all game entities and updates them
+start_tile = whole_map.get_terrain(window_size[0]//2, window_size[1]//2)
+print(start_tile.collide)
+
+p1 = Player(colors.WHITE, start_tile)  # Making a Player entity
+characters.add(p1)  # Adding it to the all_sprites container
 
 menuCanvas = pygame.Surface(window_size)
 
