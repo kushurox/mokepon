@@ -11,13 +11,14 @@ ids = {
     'grass1.png': 2,
     'hill2.png': 3,
     'hill3.png': 4,
-    'path2': 6,
+    'path2.png': 6,
     'stairs.png': 7
 }
 
 rev_ids = {}
 
 for key, val in ids.items():
+    print(key, val)
     rev_ids[val] = pygame.image.load(f"{DIR}/{key}")
 
 
@@ -83,3 +84,7 @@ class Terrains:
     def draw(self, surface):
         for tile in self.terrains:
             surface.blit(tile, (tile.rect.x, tile.rect.y))
+
+
+def load_map():
+    pass
