@@ -4,6 +4,8 @@ import pygame
 # walk_up    = []
 # walk_down  = []
 # idle       = [pygame.image.load()]
+from utils.terrains import GameTerrain
+
 
 class Player(pygame.sprite.Sprite):
 
@@ -17,14 +19,16 @@ class Player(pygame.sprite.Sprite):
         False: pygame.image.load("assets/char_animation/boy_idle/mpknboy2.png")
     }
 
-    def __init__(self, color, pos):
+    def __init__(self, color, current_tile: GameTerrain):
         super(Player, self).__init__()
 
         self.image = self.bobs[False]
         self.image = pygame.transform.scale(self.image, self.PLAYER_SIZE)
 
+        self.current_tile = current_tile
+
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = pos
+        self.rect.x, self.rect.y = current_tile.rect.x, current_tile.rect.y
 
     def update(self, *args, **kwargs) -> None:
         dt = args[0]
@@ -33,6 +37,27 @@ class Player(pygame.sprite.Sprite):
             self.image = self.bobs[self.status]
             self.status = not self.status
             self.next_bob = 0.5
+
+    @staticmethod
+    def target(terrain: GameTerrain):
+        return not terrain.collide
+
+    def up(self, t: GameTerrain):
+        if self.target(t):
+            self.rect.y -= 50
+
+    def down(self, t: GameTerrain):
+        if self.target(t):
+            self.rect.y += 50
+
+    def left(self, t: GameTerrain):
+        if self.target(t):
+            self.rect.x -= 50
+
+    def right(self, t: GameTerrain):
+        if self.target(t):
+            self.rect.x += 50
+
 
 
 
