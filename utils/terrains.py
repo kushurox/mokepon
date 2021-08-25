@@ -18,7 +18,6 @@ ids = {
 rev_ids = {}
 
 for key, val in ids.items():
-    print(key, val)
     rev_ids[val] = pygame.image.load(f"{DIR}/{key}")
 
 
