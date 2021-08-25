@@ -11,7 +11,6 @@ ids = {
     'grass1.png': 2,
     'hill2.png': 3,
     'hill3.png': 4,
-    'path1.png': 5,
     'path2.png': 6,
     'stairs.png': 7
 }
@@ -84,3 +83,7 @@ class Terrains:
     def draw(self, surface):
         for tile in self.terrains:
             surface.blit(tile, (tile.rect.x, tile.rect.y))
+
+
+def load_map():
+    pass

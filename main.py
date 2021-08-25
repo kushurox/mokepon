@@ -2,7 +2,7 @@ import pygame
 from pygame.time import Clock
 import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player  # All the Game entities will be defined here
-from utils.constants import window_size, window_height, window_width
+from utils.constants import window_size
 from utils.terrains import GameTerrain, Terrains
 from utils.constants import default_sprite_res
 
@@ -22,11 +22,6 @@ clock = Clock()
 gameMenu = True
 
 whole_map = Terrains()
-whole_map.add(test_tile)
-t2 = GameTerrain(default_sprite_res, 0, False)
-t2.rect.x = 100
-t2.rect.y = 100
-whole_map.add(t2)
 
 
 menuCanvas = pygame.Surface(window_size)
