@@ -137,7 +137,7 @@ while gameRun:
                         save_canvas.fill(GREEN)
                         filename_s = filename_s[:-1]
                     elif event.key == pygame.K_RETURN:
-                        map_details.to_csv(f"maps/{filename_s}.csv", index=False, header=False)
+                        map_details.to_csv(f"maps/{filename_s}.csv", index=False)
                         to_save = False
 
                 else:
