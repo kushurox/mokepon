@@ -8,12 +8,11 @@ DIR = "assets/surfaces"
 ids = {
     'ghas.png': 0,
     'hill.png': 1,
-    'grass1.png': 2
+    'grass1.png': 2,
     'hill2.png': 3,
     'hill3.png': 4,
     'path2': 6,
-    'stairs.png': 5
-
+    'stairs.png': 7
 }
 
 rev_ids = {}
