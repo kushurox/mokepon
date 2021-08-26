@@ -11,6 +11,25 @@ class Player(pygame.sprite.Sprite):
 
     next_bob = 0.5
 
+    is_moving = False
+
+    movementX = {
+        pygame.K_a: -48,
+        pygame.K_d: 52,
+        pygame.K_w: 0,
+        pygame.K_s: 0
+    }
+    movementY = {
+        pygame.K_w: -48,
+        pygame.K_s: 52,
+        pygame.K_a: 0,
+        pygame.K_d: 0
+    }
+
+    ms = 0.2
+
+    tt = None
+
     status = False
 
     PLAYER_SIZE = (50, 50)
@@ -38,25 +57,33 @@ class Player(pygame.sprite.Sprite):
             self.status = not self.status
             self.next_bob = 0.5
 
+        self.ms -= dt
+        if self.is_moving:
+            if not self.target(self.tt):
+                self.is_moving = False
+                self.ms = 0.2
+            elif self.ms <= 0:
+                self.rect.x = self.tt.rect.x
+                self.rect.y = self.tt.rect.y
+                self.current_tile = self.tt
+                self.ms = 0.2
+                self.is_moving = False
+
+
     @staticmethod
     def target(terrain: GameTerrain):
         return not terrain.collide
 
-    def up(self, t: GameTerrain):
-        if self.target(t):
-            self.rect.y -= 50
+    def move(self, t: GameTerrain):
+        self.is_moving = True
+        self.tt = t
 
-    def down(self, t: GameTerrain):
-        if self.target(t):
-            self.rect.y += 50
+    def get_move(self, key):
+        if key in self.movementX:
+            return self.current_tile.rect.x + self.movementX[key], self.current_tile.rect.y + self.movementY[key]
+        return False
 
-    def left(self, t: GameTerrain):
-        if self.target(t):
-            self.rect.x -= 50
 
-    def right(self, t: GameTerrain):
-        if self.target(t):
-            self.rect.x += 50
 
 
 
