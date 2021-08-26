@@ -19,7 +19,7 @@ run = True
 clock = Clock()
 gameMenu = True
 
-whole_map = load_map('maps/reasonable.csv')
+whole_map = load_map('maps/testmap.csv')
 
 characters = pygame.sprite.Group()            # Will contain all game entities and updates them
 start_tile = whole_map.get_terrain(window_size[0] // 2, window_size[1] // 2)
@@ -51,7 +51,7 @@ def move(t, mk=None):
 
 
 while run:
-    dt = clock.tick(60)
+    dt = clock.tick(30)
     for event in pygame.event.get():            # Looping through all events
         if event.type == pygame.QUIT:
             run = False

@@ -14,6 +14,9 @@ class Player(pygame.sprite.Sprite):
     destX = 0
     destY = 0
 
+    progressX = 0
+    progressY = 0
+
     movementX = {
         pygame.K_a: -48,
         pygame.K_d: 52,
@@ -35,8 +38,8 @@ class Player(pygame.sprite.Sprite):
 
     PLAYER_SIZE = (50, 50)
     bobs = {
-        True: pygame.image.load("assets/char_animation/boy_idle/mpknboy1.png"),
-        False: pygame.image.load("assets/char_animation/girl_idle/mpknboy2.png")
+        True: pygame.image.load("assets/char_animation/girl_idle/mpkngirl1.png"),
+        False: pygame.image.load("assets/char_animation/girl_idle/mpkngirl2.png")
     }
 
     def __init__(self, color, current_tile: GameTerrain):
@@ -63,14 +66,14 @@ class Player(pygame.sprite.Sprite):
             if not self.target(self.tt):
                 self.is_moving = False
                 self.ms = 500
-
-            if 0 < self.ms <= 250:
-                self.destX -= self.destX // 2
-                self.destY -= self.destY // 2
-                self.rect.x += self.destX
-                self.rect.y += self.destY
-
-            # s = self.destX/(self.ms/1000)
+            elif self.ms >= 250:
+                self.destX -= round(self.destX / 2)
+                self.destY -= round(self.destY / 2)
+                self.progressX += self.destX
+                self.progressY += self.destY
+                if not abs(self.progressX) >= 50 and not abs(self.progressY) >= 50:
+                    self.rect.x += self.destX
+                    self.rect.y += self.destY
 
             elif self.ms <= 0:
                 self.rect.x = self.tt.rect.x
@@ -78,8 +81,11 @@ class Player(pygame.sprite.Sprite):
                 self.current_tile = self.tt
                 self.ms = 500
                 self.destX = 0
+                self.progressX = 0
+                self.progressY = 0
                 self.destY = 0
                 self.is_moving = False
+
 
     @staticmethod
     def target(terrain: GameTerrain):
