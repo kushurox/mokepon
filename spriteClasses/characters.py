@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
     PLAYER_SIZE = (50, 50)
     bobs = {
         True: pygame.image.load("assets/char_animation/boy_idle/mpknboy1.png"),
-        False: pygame.image.load("assets/char_animation/boy_idle/mpknboy2.png")
+        False: pygame.image.load("assets/char_animation/girl_idle/mpknboy2.png")
     }
 
     def __init__(self, color, current_tile: GameTerrain):
