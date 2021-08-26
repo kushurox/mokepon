@@ -1,21 +1,11 @@
 import pygame
-# walk_left  = []
-# walk_right = []
-# walk_up    = []
-# walk_down  = []
-# idle       = [pygame.image.load()]
-from utils.terrains import GameTerrain
+
+from utils.constants import window_size
+from utils.terrains import GameTerrain, Terrains
 
 
 class Player(pygame.sprite.Sprite):
     next_bob = 500
-
-    is_moving = False
-    destX = 0
-    destY = 0
-
-    progressX = 0
-    progressY = 0
 
     movementX = {
         pygame.K_a: -48,
@@ -23,14 +13,8 @@ class Player(pygame.sprite.Sprite):
         pygame.K_w: 0,
         pygame.K_s: 0
     }
-    movementY = {
-        pygame.K_w: -48,
-        pygame.K_s: 52,
-        pygame.K_a: 0,
-        pygame.K_d: 0
-    }
 
-    ms = 500
+    area = None
 
     tt = None
 
@@ -42,16 +26,18 @@ class Player(pygame.sprite.Sprite):
         False: pygame.image.load("assets/char_animation/girl_idle/mpkngirl2.png")
     }
 
-    def __init__(self, color, current_tile: GameTerrain):
+    def __init__(self, color, whole_area: Terrains):
         super(Player, self).__init__()
 
         self.image = self.bobs[False]
         self.image = pygame.transform.scale(self.image, self.PLAYER_SIZE)
 
-        self.current_tile = current_tile
+        self.area = whole_area
+
+        self.current_tile = whole_area.get_terrain(window_size[0] // 2, window_size[1] // 2)
 
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = current_tile.rect.x, current_tile.rect.y
+        self.rect.x, self.rect.y = self.current_tile.rect.x, self.current_tile.rect.y
 
     def update(self, *args, **kwargs) -> None:
         dt = args[0]
@@ -61,43 +47,40 @@ class Player(pygame.sprite.Sprite):
             self.status = not self.status
             self.next_bob = 500
 
-        if self.is_moving:
-            self.ms -= dt
-            if not self.target(self.tt):
-                self.is_moving = False
-                self.ms = 500
-            elif self.ms >= 250:
-                self.destX -= round(self.destX / 2)
-                self.destY -= round(self.destY / 2)
-                self.progressX += self.destX
-                self.progressY += self.destY
-                if not abs(self.progressX) >= 50 and not abs(self.progressY) >= 50:
-                    self.rect.x += self.destX
-                    self.rect.y += self.destY
+    def move(self, pmx, pmy, pkx, pky, movementX, movementY, wt):
 
-            elif self.ms <= 0:
-                self.rect.x = self.tt.rect.x
-                self.rect.y = self.tt.rect.y
-                self.current_tile = self.tt
-                self.ms = 500
-                self.destX = 0
-                self.progressX = 0
-                self.progressY = 0
-                self.destY = 0
-                self.is_moving = False
+        if pmx:
+            x = movementX[pkx]
+            x *= wt
+            dx = self.rect.x + x
+            if x < 0:
+                contact_tile = self.area.get_terrain(dx, self.rect.y+25)
+            else:
+                contact_tile = self.area.get_terrain(dx + 50, self.rect.y+25)
 
+            if self.target(contact_tile):
+                self.rect.x = dx
+
+        if pmy:
+            y = movementY[pky]
+            y *= wt
+            dy = self.rect.y + y
+            sign = dy / -dy
+            if y < 0:
+                contact_tile = self.area.get_terrain(self.rect.x+25, dy)
+            else:
+                contact_tile = self.area.get_terrain(self.rect.x+25, dy+50)
+
+            if self.target(contact_tile):
+                self.rect.y = dy
+
+        self.current_tile = self.area.get_terrain(self.rect.x, self.rect.y)
 
     @staticmethod
     def target(terrain: GameTerrain):
         return not terrain.collide
 
-    def move(self, t: GameTerrain):
-        self.is_moving = True
-        self.tt = t
-        self.destX = self.tt.rect.x - self.rect.x
-        self.destY = self.tt.rect.y - self.rect.y
-
     def get_move(self, key):
         if key in self.movementX:
-            return self.current_tile.rect.x + self.movementX[key], self.current_tile.rect.y + self.movementY[key]
+            return self.current_tile
         return False

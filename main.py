@@ -22,33 +22,31 @@ gameMenu = True
 whole_map = load_map('maps/testmap.csv')
 
 characters = pygame.sprite.Group()            # Will contain all game entities and updates them
-start_tile = whole_map.get_terrain(window_size[0] // 2, window_size[1] // 2)
 
-p1 = Player(colors.WHITE, start_tile)         # Making a Player entity
+p1 = Player(colors.WHITE, whole_map)         # Making a Player entity
 characters.add(p1)                            # Adding it to the all_sprites container
 
 menuCanvas = pygame.Surface(window_size)
-move_player = False
 
+ts = 500
+ws = 50
+pmx = False
+pmy = False
+pkx = None
+pky = None
+wt = (1 / ws) * 5
 
 screen.fill(colors.BLACK)
 
-move_key = None
+movementX = {
+    pygame.K_a: -ws,
+    pygame.K_d: ws
+}
 
-ms = 500
-
-
-def move(t, mk=None):
-    global ms
-    ms -= t
-
-    if move_player and ms <= 0:
-        coords = p1.get_move(mk)
-        t = whole_map.get_terrain(*coords)
-        if t:
-            p1.move(t)
-        ms = 500
-
+movementY = {
+    pygame.K_w: -ws,
+    pygame.K_s: ws
+}
 
 while run:
     dt = clock.tick(30)
@@ -56,17 +54,22 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-        elif event.type == pygame.KEYDOWN and event.key in p1.movementX:
-            move_player = True
-            move_key = event.key
-        elif event.type == pygame.KEYUP and event.key in p1.movementX:
-            move_player = False
+        elif event.type == pygame.KEYDOWN and event.key in movementX:
+            pmx = True
+            pkx = event.key
+        elif event.type == pygame.KEYDOWN and event.key in movementY:
+            pmy = True
+            pky = event.key
+        elif event.type == pygame.KEYUP and event.key in movementX:
+            pmx = False
+        elif event.type == pygame.KEYUP and event.key in movementY:
+            pmy = False
 
     characters.update(dt)                        # Updates all the entities
     whole_map.draw(screen)
+    p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
 
     characters.draw(screen)
-    move(dt, move_key)
 
     pygame.display.flip()                        # Updates the screen
 
