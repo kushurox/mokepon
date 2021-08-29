@@ -1,8 +1,5 @@
 # Project exclude paths
 /venv/
 test.py
-testmap.kmap
-diff.kmap
-yes.kmap
 reasonable.csv
 .DS_Store
