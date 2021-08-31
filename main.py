@@ -7,10 +7,10 @@ from utils.constants import window_size
 from utils.terrains import load_map
 
 pygame.init()
-pygame.mixer.init()
-
-bgm = pygame.mixer.Sound("assets/misc/bgm.wav")
-bgm.play(-1)
+# pygame.mixer.init()
+#
+# bgm = pygame.mixer.Sound("assets/misc/bgm.wav")
+# bgm.play(-1)
 
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("mokepon")        # Setting up screen title
@@ -23,7 +23,7 @@ whole_map = load_map('maps/testmap.csv')
 
 characters = pygame.sprite.Group()            # Will contain all game entities and updates them
 
-p1 = Player(colors.WHITE, whole_map)         # Making a Player entity
+p1 = Player(colors.WHITE, whole_map, 1)         # Making a Player entity
 characters.add(p1)                            # Adding it to the all_sprites container
 
 menuCanvas = pygame.Surface(window_size)
@@ -55,18 +55,31 @@ while run:
             run = False
 
         elif event.type == pygame.KEYDOWN and event.key in movementX:
+            p1.bobs[True] = p1.character_sprite1[event.key]
+            p1.bobs[False] = p1.character_sprite2[event.key]
+            p1.next_bob = 0
             pmx = True
             pkx = event.key
         elif event.type == pygame.KEYDOWN and event.key in movementY:
+            p1.bobs[True] = p1.character_sprite1[event.key]
+            p1.bobs[False] = p1.character_sprite2[event.key]
+            p1.next_bob = 0
             pmy = True
             pky = event.key
         elif event.type == pygame.KEYUP and event.key in movementX:
+            p1.bobs[True] = p1.character_sprite1[-1]
+            p1.bobs[False] = p1.character_sprite2[-1]
+            p1.next_bob = 0
             pmx = False
         elif event.type == pygame.KEYUP and event.key in movementY:
+            p1.bobs[True] = p1.character_sprite1[-1]
+            p1.bobs[False] = p1.character_sprite2[-1]
+            p1.next_bob = 0
             pmy = False
 
     characters.update(dt)                        # Updates all the entities
     whole_map.draw(screen)
+
     p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
 
     characters.draw(screen)
