@@ -94,6 +94,7 @@ def load_map(map_name: str) -> Terrains:
     y = 0
     _map = Terrains()
     df = pandas.read_csv(map_name).values
+    print(df.shape)
     for row in df:
         x = 0
         for block in row:

@@ -29,7 +29,7 @@ camera = GameCamera(0, 0)
 p1 = Player(colors.WHITE, whole_map, 1, camera)         # Making a Player entity
 characters.add(p1)                            # Adding it to the all_sprites container
 
-menuCanvas = pygame.Surface(window_size)
+menuCanvas = pygame.Surface((1400, 900))
 
 ts = 500
 ws = 50
@@ -37,7 +37,7 @@ pmx = False
 pmy = False
 pkx = None
 pky = None
-wt = (1 / ws) * 5
+wt = 0.09
 
 screen.fill(colors.BLACK)
 
@@ -74,15 +74,22 @@ while run:
         elif event.type == pygame.KEYUP and event.key in movementY:
             pmy = False
 
+        elif event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
+            p1.current_tile.fill(colors.BLUE)
+
     if not pmx and not pmy:
         p1.bobs[True] = p1.character_sprite1[-1]
         p1.bobs[False] = p1.character_sprite2[-1]
 
-    characters.update(dt)                        # Updates all the entities
+    characters.update(dt)    # Updates all the entities
     whole_map.draw(menuCanvas)
 
+    screen.fill(colors.BLACK)
+
+    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, window_size[0], window_size[1]))
+
+
     p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
-    screen.blit(menuCanvas, (0, 0), (0, 0, window_size[0], window_size[1]))
 
     characters.draw(screen)
 

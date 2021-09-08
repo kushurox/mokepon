@@ -1,6 +1,7 @@
 import pygame
 
 from utils.camera import GameCamera
+from utils.color import RED
 from utils.constants import window_size
 from utils.terrains import GameTerrain, Terrains
 
@@ -95,16 +96,16 @@ class Player(pygame.sprite.Sprite):
             x *= wt
             dx = self.rect.x + x
             if x < 0:
-                contact_tile = self.area.get_terrain(dx, self.rect.y + 25)
+                contact_tile = self.area.get_terrain(dx + self.camera.x_offset, self.rect.y + 25 + self.camera.y_offset)
             else:
-                contact_tile = self.area.get_terrain(dx + 50, self.rect.y + 25)
+                contact_tile = self.area.get_terrain(dx + 50 + self.camera.x_offset, self.rect.y + 25 + self.camera.y_offset)
 
-            print(contact_tile.rect, dx, self.current_tile.rect)
-
+            # contact_tile.fill(RED)
 
             if self.target(contact_tile):
                 self.rect.x = dx
                 self.camera.begin_x += x
+                self.camera.x_offset += x
 
         if pmy and not pmx:
             y = movementY[pky]
@@ -112,14 +113,19 @@ class Player(pygame.sprite.Sprite):
             dy = self.rect.y + y
             sign = dy / -dy
             if y < 0:
-                contact_tile = self.area.get_terrain(self.rect.x + 25, dy)
+                contact_tile = self.area.get_terrain(self.rect.x + 25 + self.camera.x_offset, dy + self.camera.y_offset)
             else:
-                contact_tile = self.area.get_terrain(self.rect.x + 25, dy + 50)
+                contact_tile = self.area.get_terrain(self.rect.x + 25 + self.camera.x_offset, dy + 50 + self.camera.y_offset)
+
+            # contact_tile.fill(RED)
 
             if self.target(contact_tile):
                 self.rect.y = dy
+                self.camera.begin_y += y
+                self.camera.y_offset += y
+                print("Changed offset to", self.camera.y_offset)
 
-        self.current_tile = self.area.get_terrain(self.rect.x, self.rect.y)
+        self.current_tile = self.area.get_terrain(self.rect.x+25 + self.camera.x_offset, self.rect.y+25 + self.camera.y_offset)
 
     @staticmethod
     def target(terrain: GameTerrain):
