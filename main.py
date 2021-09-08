@@ -1,7 +1,7 @@
 import pygame
 from pygame.time import Clock
 
-import utils.color as colors                 # Use the colors.py to define ur color
+import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player  # All the Game entities will be defined here
 from utils.camera import GameCamera
 from utils.constants import window_size
@@ -14,7 +14,7 @@ pygame.init()
 # bgm.play(-1)
 
 screen = pygame.display.set_mode(window_size)
-pygame.display.set_caption("mokepon")        # Setting up screen title
+pygame.display.set_caption("mokepon")  # Setting up screen title
 
 run = True
 clock = Clock()
@@ -22,12 +22,12 @@ gameMenu = True
 
 whole_map = load_map('maps/testmap.csv')
 
-characters = pygame.sprite.Group()            # Will contain all game entities and updates them
+characters = pygame.sprite.Group()  # Will contain all game entities and updates them
 
 camera = GameCamera(0, 0)
 
-p1 = Player(colors.WHITE, whole_map, 1, camera)         # Making a Player entity
-characters.add(p1)                            # Adding it to the all_sprites container
+p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
+characters.add(p1)  # Adding it to the all_sprites container
 
 menuCanvas = pygame.Surface((1400, 900))
 
@@ -37,7 +37,7 @@ pmx = False
 pmy = False
 pkx = None
 pky = None
-wt = 0.09
+wt = (1/ws) * 3
 
 screen.fill(colors.BLACK)
 
@@ -53,7 +53,7 @@ movementY = {
 
 while run:
     dt = clock.tick(30)
-    for event in pygame.event.get():            # Looping through all events
+    for event in pygame.event.get():  # Looping through all events
         if event.type == pygame.QUIT:
             run = False
 
@@ -81,18 +81,16 @@ while run:
         p1.bobs[True] = p1.character_sprite1[-1]
         p1.bobs[False] = p1.character_sprite2[-1]
 
-    characters.update(dt)    # Updates all the entities
+    characters.update(dt)  # Updates all the entities
     whole_map.draw(menuCanvas)
 
     screen.fill(colors.BLACK)
 
-    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, window_size[0], window_size[1]))
-
-
     p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
+    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, window_size[0], window_size[1]))
 
     characters.draw(screen)
 
-    pygame.display.flip()                        # Updates the screen
+    pygame.display.flip()  # Updates the screen
 
-pygame.quit()                                    # Stops Pygame
+pygame.quit()  # Stops Pygame
