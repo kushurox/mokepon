@@ -1,5 +1,6 @@
 import pygame
 
+from utils.camera import GameCamera
 from utils.constants import window_size
 from utils.terrains import GameTerrain, Terrains
 
@@ -28,8 +29,10 @@ class Player(pygame.sprite.Sprite):
 
     bobs = {}
 
-    def __init__(self, color, whole_area: Terrains, gender):
+    def __init__(self, color: tuple, whole_area: Terrains, gender: int, camera: GameCamera):
         super(Player, self).__init__()
+
+        self.camera = camera
 
         self.gender = gender
         if gender == 1:  # male
@@ -96,8 +99,12 @@ class Player(pygame.sprite.Sprite):
             else:
                 contact_tile = self.area.get_terrain(dx + 50, self.rect.y + 25)
 
+            print(contact_tile.rect, dx, self.current_tile.rect)
+
+
             if self.target(contact_tile):
                 self.rect.x = dx
+                self.camera.begin_x += x
 
         if pmy and not pmx:
             y = movementY[pky]

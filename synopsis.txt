@@ -1,0 +1,22 @@
+1]Mokepon is a 2d rpg based game where you embark on a journey with your mokepon to learn a lot about this world
+and take part in tournaments. On your journey you will meet many new people such as rivals or new friends.
+Form party with friends and show the rest how its done!
+
+
+
+2]Technical Note:
+This Python code uses Pygame Numpy and numpy as third party modules, please install them to run the code
+
+
+All code written here is done by kushal and mihir only.
+
+Assets are solely done by mihir
+
+Members:
+kushal (12 D) - lead programmar
+mihir (12 A) - Artist, musician
+
+school:
+Delhi Public School Bangalore South
+
+
