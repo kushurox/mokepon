@@ -100,11 +100,9 @@ class Player(pygame.sprite.Sprite):
             else:
                 contact_tile = self.area.get_terrain(dx + 50 + self.camera.x_offset, self.rect.y + 25 + self.camera.y_offset)
 
-            # contact_tile.fill(RED)
-
             if self.target(contact_tile):
                 self.rect.x = dx
-                self.camera.begin_x += x
+                self.camera.begin_x = self.rect.x - 300
                 self.camera.x_offset += x
 
         if pmy and not pmx:
@@ -117,13 +115,11 @@ class Player(pygame.sprite.Sprite):
             else:
                 contact_tile = self.area.get_terrain(self.rect.x + 25 + self.camera.x_offset, dy + 50 + self.camera.y_offset)
 
-            # contact_tile.fill(RED)
 
             if self.target(contact_tile):
                 self.rect.y = dy
-                self.camera.begin_y += y
+                self.camera.begin_y = self.rect.y - 300
                 self.camera.y_offset += y
-                print("Changed offset to", self.camera.y_offset)
 
         self.current_tile = self.area.get_terrain(self.rect.x+25 + self.camera.x_offset, self.rect.y+25 + self.camera.y_offset)
 

@@ -37,7 +37,7 @@ pmx = False
 pmy = False
 pkx = None
 pky = None
-wt = 0.09
+wt = (1/ws) * 3
 
 screen.fill(colors.BLACK)
 
@@ -86,9 +86,8 @@ while run:
 
     screen.fill(colors.BLACK)
 
-    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, window_size[0], window_size[1]))
-
     p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
+    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, window_size[0], window_size[1]))
 
     characters.draw(screen)
 
