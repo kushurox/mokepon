@@ -1,5 +1,3 @@
-import pickle
-
 import pandas
 import pygame
 
@@ -17,30 +15,26 @@ ids = {
     'path1.png': 5,
     'path2.png': 6,
     'stairs.png': 7,
-    'haus_8.png': 8,
-    'haus_9.png': 9,
-    'haus_10.png': 10,
-    'haus_11.png': 12,
-    'haus_12.png': 13,
-    'haus_13.png': 14,
-    'haus_14.png': 15,
-    'haus_15.png': 16,
-    'haus_16.png': 17,
-    'haus_17.png': 18,
-    'haus_18.png': 19,
-    'haus_19.png': 20,
-    'haus_20.png': 21,
-    'haus_21.png': 22,
-    'haus_22.png': 23,
-    'haus_23.png': 24,
-    'haus_24.png': 25,
-    'haus_25.png': 26,
-    'haus_26.png': 27,
-    'haus_27.png': 28,
-    'door.png': 29,
-    'haus_29.png': 30
+    'haus_8.png' :8,
+    'haus_9.png' :9,
+    'haus_10.png' :10,
+    'haus_11.png' :11,
+    'haus_14.png' :12,
+    'haus_15.png' :13,
+    'haus_16.png' :14,
+    'haus_17.png' : 15,
+    'haus_20.png':16,
+    'haus_21.png':17,
+    'haus_22.png':18,
+    'haus_23.png':19,
+    'haus_26.png':20,
+    'haus_27.png':21,
+    'door.png':   22,
+    'haus_29.png':23
 }
-# haus_28 is door
+
+
+#haus_28 is door
 
 collide_id = [1, 3, 4, -1]
 
@@ -124,8 +118,7 @@ class Terrains:
 def load_map(map_name: str) -> Terrains:
     y = 0
     _map = Terrains()
-    with open(map_name, "rb") as fp:
-        df = pickle.load(fp)
+    df = pandas.read_csv(map_name).values
     print(df.shape)
     for row in df:
         x = 0
@@ -137,3 +130,5 @@ def load_map(map_name: str) -> Terrains:
             _map.add(t)
         y += 50
     return _map
+
+
