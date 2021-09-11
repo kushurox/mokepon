@@ -1,6 +1,4 @@
 import pickle
-
-import pandas
 import pygame
 from spriteClasses.container import Air
 from utils.camera import EditorCamera
@@ -91,7 +89,7 @@ save_canvas = pygame.Surface((400, 200))
 save_canvas.fill(GREEN)
 
 
-def save():
+def save(fn):
     global to_save
     map_ = []
     to_save = True
@@ -99,7 +97,8 @@ def save():
     sprites = containers.sprites()
     for i in sprites:
         map_.append(i.block_id)
-    return pandas.DataFrame(np.array(map_).reshape((canvas_height // 50, canvas_width // 50)))
+    with open(fn, "wb") as fp:
+        pickle.dump(np.array(map_).reshape((canvas_height // 50, canvas_width // 50)), fp)
 
 
 while gameRun:
@@ -127,7 +126,6 @@ while gameRun:
                     SELECTED_TILE = assets.get_current_tile()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-                map_details = save()
                 to_save = True
 
         elif CONTEXT == 2:
@@ -137,7 +135,7 @@ while gameRun:
                         save_canvas.fill(GREEN)
                         filename_s = filename_s[:-1]
                     elif event.key == pygame.K_RETURN:
-                        map_details.to_csv(f"maps/{filename_s}.csv", index=False)
+                        save(filename_s + ".pickle")
                         to_save = False
 
                 else:
