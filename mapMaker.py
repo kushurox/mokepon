@@ -2,7 +2,7 @@ import pickle
 import pygame
 from spriteClasses.container import Air
 from utils.camera import EditorCamera
-from utils.color import BLACK, GREEN, RED
+from utils.color import BLACK, GREEN, RED, BLUE
 from utils.constants import letters
 import os
 import numpy as np
@@ -17,8 +17,18 @@ class Containers(pygame.sprite.Group):
         return self.current_tile
 
 
-class Assets(Containers):
-    pass
+class Assets(pygame.Surface):
+    contains = []
+
+    def draw(self):
+        for i in self.contains:
+            self.blit(i.image, (i.rect.x, i.rect.y))
+
+    def select(self, mx, my):
+        mx -= width - 100
+        for i in self.contains:
+            if i.rect.collidepoint(mx, my):
+                return i
 
 
 pygame.init()
@@ -51,22 +61,24 @@ for i in range(canvas_height // 50):  # Loads Map Area
     y += 50
 
 ay = 0
-ax = 600
+ax = 0
 
 surfaces = os.listdir("assets/surfaces")
-assets = Assets()
 
 total = len(surfaces)
+
+surfaceCanvas = Assets((100, height+300))
 
 for i in surfaces:
     t = Terrain(i)
     t.rect.x = ax
     t.rect.y = ay
-    assets.add(t)
-    if ax == 650:
-        ax = 600
+    surfaceCanvas.contains.append(t)
+    if ax == 50:
+        ax = 0
         ay += 50
-    ax += 50
+    else:
+        ax += 50
 
 cam_y_offset = 0
 cam_x_offset = 0
@@ -87,6 +99,8 @@ filename_s = ""
 
 save_canvas = pygame.Surface((400, 200))
 save_canvas.fill(GREEN)
+
+surfaceCamera = EditorCamera(0, 0)
 
 
 def save(fn):
@@ -122,11 +136,14 @@ while gameRun:
         if CONTEXT == 1:  # Checks if he is selecting any asset
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    assets.update(mx, my)
-                    SELECTED_TILE = assets.get_current_tile()
+                    SELECTED_TILE = surfaceCanvas.select(mx, my)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
                 to_save = True
+
+            if event.type == pygame.MOUSEWHEEL:
+                screen.fill(BLACK)
+                surfaceCamera.begin_y += event.y
 
         elif CONTEXT == 2:
             if event.type == pygame.KEYUP:
@@ -177,9 +194,10 @@ while gameRun:
                     a.occupied = True
                     a.set_terrain(SELECTED_TILE)
 
-    screen.fill(BLACK)
+    # screen.fill(BLACK)
     screen.blit(canvas, (0, 0), (cam.begin_x, cam.begin_y, width - 100, height))
-    assets.draw(screen)
+    surfaceCanvas.draw()
+    screen.blit(surfaceCanvas, (width - 100, 0), (surfaceCamera.begin_x, surfaceCamera.begin_y, 100, height))
 
     if CONTEXT == 2:
         screen.blit(save_canvas, (100, 200))
