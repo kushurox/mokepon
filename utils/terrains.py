@@ -61,6 +61,7 @@ class Terrain(pygame.sprite.Sprite):
 
 class GameTerrain(pygame.Surface):
     collide = False
+    contains = []
 
     def __init__(self, s, block_id):
         super(GameTerrain, self).__init__(s)
@@ -69,6 +70,9 @@ class GameTerrain(pygame.Surface):
             self.collide = True
         self.block_id = block_id
         self.blit(rev_ids[self.block_id], (0, 0))
+
+    def add(self, item):
+        self.contains.append(item)
 
 
 class Terrains:
@@ -88,6 +92,8 @@ class Terrains:
     def draw(self, surface):
         for tile in self.terrains:
             surface.blit(tile, (tile.rect.x, tile.rect.y))
+            for item in tile.contains:
+                surface.blit(item.image, (item.rect.x, item.rect.y))
 
 
 def load_map(map_name: str) -> Terrains:

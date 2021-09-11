@@ -1,3 +1,6 @@
+from utils.constants import window_size
+
+
 class EditorCamera:
 
     x_offset = 0
@@ -35,4 +38,5 @@ class GameCamera:
     def __init__(self, begin_x, begin_y):
         self.begin_x = begin_x
         self.begin_y = begin_y
+        self.end_x, self.end_y = window_size
 

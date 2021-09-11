@@ -2,7 +2,7 @@ import pygame
 from pygame.time import Clock
 
 import utils.color as colors  # Use the colors.py to define ur color
-from spriteClasses.characters import Player  # All the Game entities will be defined here
+from spriteClasses.characters import Player, NPC  # All the Game entities will be defined here
 from utils.camera import GameCamera
 from utils.constants import window_size
 from utils.terrains import load_map
@@ -12,6 +12,7 @@ pygame.init()
 #
 # bgm = pygame.mixer.Sound("assets/misc/bgm.wav")
 # bgm.play(-1)
+
 
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("mokepon")  # Setting up screen title
@@ -27,7 +28,7 @@ characters = pygame.sprite.Group()  # Will contain all game entities and updates
 camera = GameCamera(0, 0)
 
 p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
-characters.add(p1)  # Adding it to the all_sprites container
+npc1 = NPC((100, 100), whole_map)
 
 menuCanvas = pygame.Surface((1400, 900))
 
@@ -50,6 +51,7 @@ movementY = {
     pygame.K_w: -ws,
     pygame.K_s: ws
 }
+whole_map.terrains[1].add(npc1)
 
 while run:
     dt = clock.tick(30)
@@ -77,19 +79,22 @@ while run:
         elif event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
             p1.current_tile.fill(colors.BLUE)
 
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                p1.camera.begin_x += 150
+
     if not pmx and not pmy:
         p1.bobs[True] = p1.character_sprite1[-1]
         p1.bobs[False] = p1.character_sprite2[-1]
 
-    characters.update(dt)  # Updates all the entities
+    p1.update(dt)
     whole_map.draw(menuCanvas)
 
     screen.fill(colors.BLACK)
 
     p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
-    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, window_size[0], window_size[1]))
-
-    characters.draw(screen)
+    p1.draw(menuCanvas)
+    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, camera.end_x, camera.end_y))
 
     pygame.display.flip()  # Updates the screen
 

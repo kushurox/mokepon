@@ -96,14 +96,15 @@ class Player(pygame.sprite.Sprite):
             x *= wt
             dx = self.rect.x + x
             if x < 0:
-                contact_tile = self.area.get_terrain(dx + self.camera.x_offset, self.rect.y + 25 + self.camera.y_offset)
+                contact_tile = self.area.get_terrain(dx, self.rect.y + 25)
             else:
-                contact_tile = self.area.get_terrain(dx + 50 + self.camera.x_offset, self.rect.y + 25 + self.camera.y_offset)
+                contact_tile = self.area.get_terrain(dx + 50, self.rect.y + 25)
+
+            print(contact_tile.contains)
 
             if self.target(contact_tile):
                 self.rect.x = dx
                 self.camera.begin_x = self.rect.x - 300
-                self.camera.x_offset += x
 
         if pmy and not pmx:
             y = movementY[pky]
@@ -111,15 +112,13 @@ class Player(pygame.sprite.Sprite):
             dy = self.rect.y + y
             sign = dy / -dy
             if y < 0:
-                contact_tile = self.area.get_terrain(self.rect.x + 25 + self.camera.x_offset, dy + self.camera.y_offset)
+                contact_tile = self.area.get_terrain(self.rect.x + 25, dy)
             else:
-                contact_tile = self.area.get_terrain(self.rect.x + 25 + self.camera.x_offset, dy + 50 + self.camera.y_offset)
-
+                contact_tile = self.area.get_terrain(self.rect.x + 25, dy + 50)
 
             if self.target(contact_tile):
                 self.rect.y = dy
                 self.camera.begin_y = self.rect.y - 300
-                self.camera.y_offset += y
 
         self.current_tile = self.area.get_terrain(self.rect.x+25 + self.camera.x_offset, self.rect.y+25 + self.camera.y_offset)
 
@@ -132,3 +131,17 @@ class Player(pygame.sprite.Sprite):
         if key in self.movementX:
             return self.current_tile
         return False
+
+    def draw(self, screen):
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+
+class NPC(pygame.sprite.Sprite):
+    def __init__(self, pos, area: Terrains):
+        super(NPC, self).__init__()
+        self.area = area
+        self.current_tile = area.get_terrain(*pos)
+        self.current_tile.collide = True
+        self.image = pygame.image.load("assets/char_animation/girl_idle/mpkngirl1.png")
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = pos
