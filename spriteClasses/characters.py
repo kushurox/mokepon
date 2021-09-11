@@ -100,8 +100,6 @@ class Player(pygame.sprite.Sprite):
             else:
                 contact_tile = self.area.get_terrain(dx + 50, self.rect.y + 25)
 
-            print(contact_tile.contains)
-
             if self.target(contact_tile):
                 self.rect.x = dx
                 self.camera.begin_x = self.rect.x - 300

@@ -1,3 +1,5 @@
+import pickle
+
 import pandas
 import pygame
 
@@ -118,8 +120,8 @@ class Terrains:
 def load_map(map_name: str) -> Terrains:
     y = 0
     _map = Terrains()
-    df = pandas.read_csv(map_name).values
-    print(df.shape)
+    with open(map_name, "rb") as fp:
+        df = pickle.load(fp)
     for row in df:
         x = 0
         for block in row:

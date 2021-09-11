@@ -21,7 +21,7 @@ run = True
 clock = Clock()
 gameMenu = True
 
-whole_map = load_map('maps/testmap.csv')
+whole_map = load_map('maps/testmap.pickle')
 
 characters = pygame.sprite.Group()  # Will contain all game entities and updates them
 
