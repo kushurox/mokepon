@@ -108,7 +108,6 @@ class Player(pygame.sprite.Sprite):
             y = movementY[pky]
             y *= wt
             dy = self.rect.y + y
-            sign = dy / -dy
             if y < 0:
                 contact_tile = self.area.get_terrain(self.rect.x + 25, dy)
             else:

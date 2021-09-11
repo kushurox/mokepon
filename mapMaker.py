@@ -142,7 +142,7 @@ while gameRun:
                 to_save = True
 
             if event.type == pygame.MOUSEWHEEL:
-                screen.fill(BLACK)
+                screen.fill(BLACKp)
                 surfaceCamera.begin_y += event.y
 
         elif CONTEXT == 2:

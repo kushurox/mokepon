@@ -38,7 +38,7 @@ pmx = False
 pmy = False
 pkx = None
 pky = None
-wt = (1/ws) * 3
+wt = (1/ws) * 7
 
 screen.fill(colors.BLACK)
 
