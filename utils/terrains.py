@@ -98,11 +98,15 @@ class GameTerrain(pygame.Surface):
         self.blit(rev_ids[self.block_id], (0, 0))
 
     def add(self, item):
+        item.rect.x = self.rect.x
+        item.rect.y = self.rect.y
         self.contains.append(item)
 
 
 class Terrains:
     terrains = []
+
+    terrain_to_entity = {}
 
     def add(self, terrain: GameTerrain):
         self.terrains.append(terrain)
@@ -118,8 +122,6 @@ class Terrains:
     def draw(self, surface):
         for tile in self.terrains:
             surface.blit(tile, (tile.rect.x, tile.rect.y))
-            for item in tile.contains:
-                surface.blit(item.image, (item.rect.x, item.rect.y))
 
 
 def load_map(map_name: str) -> Terrains:

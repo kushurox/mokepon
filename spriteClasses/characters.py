@@ -4,6 +4,7 @@ from utils.camera import GameCamera
 from utils.color import RED
 from utils.constants import window_size
 from utils.terrains import GameTerrain, Terrains
+from itertools import cycle
 
 
 class Player(pygame.sprite.Sprite):
@@ -29,6 +30,8 @@ class Player(pygame.sprite.Sprite):
     PLAYER_SIZE = (50, 50)
 
     bobs = {}
+
+    facing_tile = None
 
     def __init__(self, color: tuple, whole_area: Terrains, gender: int, camera: GameCamera):
         super(Player, self).__init__()
@@ -100,6 +103,8 @@ class Player(pygame.sprite.Sprite):
             else:
                 contact_tile = self.area.get_terrain(dx + 50, self.rect.y + 25)
 
+            self.facing_tile = contact_tile
+
             if self.target(contact_tile):
                 self.rect.x = dx
                 self.camera.begin_x = self.rect.x - 300
@@ -112,6 +117,8 @@ class Player(pygame.sprite.Sprite):
                 contact_tile = self.area.get_terrain(self.rect.x + 25, dy)
             else:
                 contact_tile = self.area.get_terrain(self.rect.x + 25, dy + 50)
+
+            self.facing_tile = contact_tile
 
             if self.target(contact_tile):
                 self.rect.y = dy
@@ -134,11 +141,30 @@ class Player(pygame.sprite.Sprite):
 
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, pos, area: Terrains):
+    chatbox = pygame.image.load("assets/misc/chatbox.png")
+
+    def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list):
         super(NPC, self).__init__()
         self.area = area
-        self.current_tile = area.get_terrain(*pos)
+        dialogues.append(False)  # End of Interaction
+        self.area.terrain_to_entity[terrain] = self
+        self.dialogues = cycle(dialogues)
+        self.current_tile = terrain
         self.current_tile.collide = True
         self.image = pygame.image.load("assets/char_animation/girl_idle/mpkngirl1.png")
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = pos
+        self.rect.x, self.rect.y = terrain.rect.x, terrain.rect.y
+
+    def interaction(self, context, event, screen, *args):
+        screen.blit(self.chatbox, (0, 150))
+        if event and event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
+            d = next(self.dialogues)
+            context.event = None
+            if d:
+                print(d)
+            else:
+                print("End reached")
+                context.set_interaction(None)
+
+        return True
+
