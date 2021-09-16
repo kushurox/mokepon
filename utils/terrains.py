@@ -32,13 +32,18 @@ ids = {
     'haus_26.png':20,
     'haus_27.png':21,
     'door.png':   22,
-    'haus_29.png':23
+    'haus_29.png':23,
+    'hill4.png': 24,
+    'hill5.png': 25,
+    'hill6.png': 26,
+    'hill8.png': 28,
+    'hill7.png': 27
 }
 
 
 #haus_28 is door
 
-collide_id = [1, 3, 4, -1]
+collide_id = [1, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,24,25,26,27,28, -1]
 
 rev_ids = {-1: pygame.image.load(f"{DIR}/hill.png")}
 

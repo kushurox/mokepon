@@ -21,13 +21,14 @@ run = True
 clock = Clock()
 gameMenu = True
 
-whole_map = load_map('maps/testmap.pickle')
+
+whole_map = load_map('maps/ssssss.pickle')
 
 characters = pygame.sprite.Group()  # Will contain all game entities and updates them
 
 camera = GameCamera(0, 0)
 
-p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
+p1 = Player(colors.WHITE, whole_map, 0, camera)  # Making a Player entity
 npc1 = NPC((100, 100), whole_map)
 
 menuCanvas = pygame.Surface((1400, 900))
