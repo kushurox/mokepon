@@ -101,7 +101,7 @@ save_canvas = pygame.Surface((400, 200))
 save_canvas.fill(GREEN)
 
 surfaceCamera = EditorCamera(0, 0)
-
+select_block_offset_y = 0
 
 def save(fn):
     global to_save
@@ -136,7 +136,7 @@ while gameRun:
         if CONTEXT == 1:  # Checks if he is selecting any asset
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    SELECTED_TILE = surfaceCanvas.select(mx, my)
+                    SELECTED_TILE = surfaceCanvas.select(mx, my + select_block_offset_y)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
                 to_save = True
@@ -144,6 +144,7 @@ while gameRun:
             if event.type == pygame.MOUSEWHEEL:
                 screen.fill(BLACK)
                 surfaceCamera.begin_y += event.y
+                select_block_offset_y += event.y
 
         elif CONTEXT == 2:
             if event.type == pygame.KEYUP:
