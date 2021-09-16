@@ -5,6 +5,7 @@ import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player, NPC  # All the Game entities will be defined here
 from utils.camera import GameCamera
 from utils.constants import window_size
+from utils.interactionManager import InteractionManager
 from utils.terrains import load_map
 
 pygame.init()
@@ -21,16 +22,22 @@ run = True
 clock = Clock()
 gameMenu = True
 
+im = InteractionManager(screen)
+
 whole_map = load_map('maps/testmap.pickle')
 
 characters = pygame.sprite.Group()  # Will contain all game entities and updates them
 
 camera = GameCamera(0, 0)
 
-p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
-npc1 = NPC((100, 100), whole_map)
+npcs = pygame.sprite.Group()
 
+p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
+terrain = whole_map.get_terrain(100, 100)
+npc1 = NPC(terrain, whole_map, ["hello", "hi", "kushurox"])
+npcs.add(npc1)
 menuCanvas = pygame.Surface((1400, 900))
+# print(whole_map.terrains)
 
 ts = 500
 ws = 50
@@ -51,14 +58,13 @@ movementY = {
     pygame.K_w: -ws,
     pygame.K_s: ws
 }
-whole_map.terrains[1].add(npc1)
+
 
 while run:
     dt = clock.tick(30)
     for event in pygame.event.get():  # Looping through all events
         if event.type == pygame.QUIT:
             run = False
-
         elif event.type == pygame.KEYDOWN and event.key in movementX:
             p1.bobs[True] = p1.character_sprite1[event.key]
             p1.bobs[False] = p1.character_sprite2[event.key]
@@ -77,11 +83,11 @@ while run:
             pmy = False
 
         elif event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
-            p1.current_tile.fill(colors.BLUE)
-
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                p1.camera.begin_x += 150
+            facing_tile = p1.facing_tile
+            entity = whole_map.terrain_to_entity.get(facing_tile)
+            if entity:
+                im.set_interaction(entity.interaction)
+                im.event = event
 
     if not pmx and not pmy:
         p1.bobs[True] = p1.character_sprite1[-1]
@@ -94,7 +100,10 @@ while run:
 
     p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
     p1.draw(menuCanvas)
+    npcs.draw(menuCanvas)
     screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, camera.end_x, camera.end_y))
+    im.update()
+
 
     pygame.display.flip()  # Updates the screen
 
