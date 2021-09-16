@@ -24,7 +24,7 @@ gameMenu = True
 
 im = InteractionManager(screen)
 
-whole_map = load_map('maps/fullmap.pickle')
+whole_map = load_map('maps/testmap.pickle')
 
 characters = pygame.sprite.Group()  # Will contain all game entities and updates them
 
