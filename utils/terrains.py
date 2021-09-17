@@ -17,22 +17,22 @@ ids = {
     'path1.png': 5,
     'path2.png': 6,
     'stairs.png': 7,
-    'haus_8.png': 8,
-    'haus_9.png': 9,
-    'haus_10.png': 10,
-    'haus_11.png': 11,
-    'haus_14.png': 12,
-    'haus_15.png': 13,
-    'haus_16.png': 14,
-    'haus_17.png': 15,
-    'haus_20.png': 16,
-    'haus_21.png': 17,
-    'haus_22.png': 18,
-    'haus_23.png': 19,
-    'haus_26.png': 20,
-    'haus_27.png': 21,
-    'door.png': 22,
-    'haus_29.png': 23,
+    'haus_8.png' :8,
+    'haus_9.png' :9,
+    'haus_10.png' :10,
+    'haus_11.png' :11,
+    'haus_14.png' :12,
+    'haus_15.png' :13,
+    'haus_16.png' :14,
+    'haus_17.png' : 15,
+    'haus_20.png':16,
+    'haus_21.png':17,
+    'haus_22.png':18,
+    'haus_23.png':19,
+    'haus_26.png':20,
+    'haus_27.png':21,
+    'door.png':   22,
+    'haus_29.png':23,
     'hill4.png': 24,
     'hill5.png': 25,
     'hill6.png': 26,
@@ -40,9 +40,10 @@ ids = {
     'hill7.png': 27
 }
 
-# haus_28 is door
 
-collide_id = [1, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, -1]
+#haus_28 is door
+
+collide_id = [1, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,24,25,26,27,28, -1]
 
 rev_ids = {-1: pygame.image.load(f"{DIR}/hill.png")}
 
@@ -138,3 +139,5 @@ def load_map(map_name: str) -> Terrains:
             _map.add(t)
         y += 50
     return _map
+
+
