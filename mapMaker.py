@@ -67,7 +67,7 @@ surfaces = os.listdir("assets/surfaces")
 
 total = len(surfaces)
 
-surfaceCanvas = Assets((100, height+300))
+surfaceCanvas = Assets((100, height + 300))
 
 for i in surfaces:
     t = Terrain(i)
@@ -102,6 +102,7 @@ save_canvas.fill(GREEN)
 
 surfaceCamera = EditorCamera(0, 0)
 select_block_offset_y = 0
+
 
 def save(fn):
     global to_save

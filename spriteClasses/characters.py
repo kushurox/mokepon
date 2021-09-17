@@ -1,10 +1,11 @@
+from itertools import cycle
+
 import pygame
 
 from utils.camera import GameCamera
-from utils.color import RED, BLACK
+from utils.color import BLACK
 from utils.constants import window_size
 from utils.terrains import GameTerrain, Terrains
-from itertools import cycle
 
 dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
 
@@ -168,9 +169,8 @@ class NPC(pygame.sprite.Sprite):
             context.event = None
             if d:
                 self.text = dialogue_font.render(d, False, BLACK)
-                print(self.text)
             else:
-                print("End reached")
+                # Do Action here after dialogue gets over!!
                 context.set_interaction(None)
 
         return True
