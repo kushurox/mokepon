@@ -2,7 +2,7 @@ import pickle
 import pygame
 from spriteClasses.container import Air
 from utils.camera import EditorCamera
-from utils.color import BLACK, GREEN, RED, BLUE
+from utils.color import BLACK, GREEN, RED, BLUE, WHITE
 from utils.constants import letters
 import os
 import numpy as np
@@ -143,7 +143,7 @@ while gameRun:
                 to_save = True
 
             if event.type == pygame.MOUSEWHEEL:
-                screen.fill(BLACK)
+                screen.fill(WHITE)
                 surfaceCamera.begin_y += event.y
                 select_block_offset_y += event.y
 
