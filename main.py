@@ -37,7 +37,6 @@ terrain = whole_map.get_terrain(100, 100)
 npc1 = NPC(terrain, whole_map, ["hello", "hi", "kushurox"])
 npcs.add(npc1)
 menuCanvas = pygame.Surface((1400, 900))
-# print(whole_map.terrains)
 
 ts = 500
 ws = 50

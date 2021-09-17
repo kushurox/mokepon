@@ -1,10 +1,12 @@
 import pygame
 
 from utils.camera import GameCamera
-from utils.color import RED
+from utils.color import RED, BLACK
 from utils.constants import window_size
 from utils.terrains import GameTerrain, Terrains
 from itertools import cycle
+
+dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
 
 
 class Player(pygame.sprite.Sprite):
@@ -124,7 +126,8 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y = dy
                 self.camera.begin_y = self.rect.y - 300
 
-        self.current_tile = self.area.get_terrain(self.rect.x+25 + self.camera.x_offset, self.rect.y+25 + self.camera.y_offset)
+        self.current_tile = self.area.get_terrain(self.rect.x + 25 + self.camera.x_offset,
+                                                  self.rect.y + 25 + self.camera.y_offset)
 
     @staticmethod
     def target(terrain: GameTerrain):
@@ -141,7 +144,8 @@ class Player(pygame.sprite.Sprite):
 
 
 class NPC(pygame.sprite.Sprite):
-    chatbox = pygame.image.load("assets/misc/chatbox.png")
+    chatbox = pygame.image.load("assets/misc/g2429.png")
+    text = dialogue_font.render("Default", False, BLACK)
 
     def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list):
         super(NPC, self).__init__()
@@ -156,15 +160,17 @@ class NPC(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = terrain.rect.x, terrain.rect.y
 
     def interaction(self, context, event, screen, *args):
-        screen.blit(self.chatbox, (0, 150))
+        screen.blit(self.chatbox, (0, 490))
+        screen.blit(self.text, (32, 522))
+
         if event and event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
             d = next(self.dialogues)
             context.event = None
             if d:
-                print(d)
+                self.text = dialogue_font.render(d, False, BLACK)
+                print(self.text)
             else:
                 print("End reached")
                 context.set_interaction(None)
 
         return True
-
