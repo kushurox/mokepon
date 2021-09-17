@@ -44,7 +44,7 @@ pmx = False
 pmy = False
 pkx = None
 pky = None
-wt = (1/ws) * 7
+wt = (1 / ws) * 7
 
 screen.fill(colors.BLACK)
 
@@ -58,6 +58,52 @@ movementY = {
     pygame.K_s: ws
 }
 
+
+def mainmenu():
+    global run
+    main_menu = True
+
+    menu_map = load_map("maps/testmap.pickle")
+
+    map_canvas = pygame.Surface((650, 300))
+    map_canvas.fill(colors.BLUE)
+
+    start_x = 0
+
+    option_font = pygame.font.Font("assets/fonts/FiraSans-Book.ttf", 50)
+    start_game = option_font.render("Start Game", False, colors.HOVER_CONTAINER)
+    start_game_rect = start_game.get_rect()
+    start_game_rect.x = 100
+    start_game_rect.y = 100
+
+    while main_menu:
+        dt = clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                main_menu = False
+            elif event.type == pygame.MOUSEMOTION:
+                mx, my = event.pos
+                if start_game_rect.collidepoint(mx, my):
+                    start_game = option_font.render("Start Game", False, colors.RED)
+                else:
+                    start_game = option_font.render("Start Game", False, colors.HOVER_CONTAINER)
+
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    main_menu = False
+
+        screen.fill(colors.DEFAULT_CONTAINER)
+        screen.blit(map_canvas, (0, 350), (start_x, 0, 650, 300))
+        screen.blit(start_game, (start_game_rect.x, start_game_rect.y))
+        start_x += 2
+        if start_x >= 650:
+            start_x = -650
+        menu_map.draw(map_canvas)
+        pygame.display.flip()
+
+
+mainmenu()
 
 while run:
     dt = clock.tick(30)
@@ -102,7 +148,6 @@ while run:
     npcs.draw(menuCanvas)
     screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, camera.end_x, camera.end_y))
     im.update()
-
 
     pygame.display.flip()  # Updates the screen
 
