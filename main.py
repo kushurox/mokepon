@@ -63,14 +63,14 @@ def mainmenu():
     global run
     main_menu = True
 
-    menu_map = load_map("maps/testmap.pickle")
+    menu_map = load_map("maps/fullmap.pickle")
 
     map_canvas = pygame.Surface((650, 300))
     map_canvas.fill(colors.BLUE)
 
     start_x = 0
 
-    option_font = pygame.font.Font("assets/fonts/FiraSans-Book.ttf", 50)
+    option_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 50)
     start_game = option_font.render("Start Game", False, colors.HOVER_CONTAINER)
     start_game_rect = start_game.get_rect()
     start_game_rect.x = 100
