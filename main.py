@@ -2,10 +2,10 @@ import pygame
 from pygame.time import Clock
 
 import utils.color as colors  # Use the colors.py to define ur color
-from spriteClasses.characters import Player, NPC  # All the Game entities will be defined here
+from spriteClasses.characters import Player, NPC, kushuroxChild  # All the Game entities will be defined here
 from utils.camera import GameCamera
-from utils.constants import window_size
-from utils.interactionManager import InteractionManager
+from utils.constants import window_size, kd1
+from utils.interactionManager import InteractionManager, Battle
 from utils.terrains import load_map
 
 pygame.init()
@@ -34,8 +34,9 @@ npcs = pygame.sprite.Group()
 
 p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
 terrain = whole_map.get_terrain(100, 100)
-npc1 = NPC(terrain, whole_map, ["hello", "hi", "kushurox"])
+npc1 = NPC(terrain, whole_map, kd1, 63)
 npcs.add(npc1)
+npc1.set_start_action(kushuroxChild, p1)
 menuCanvas = pygame.Surface((1400, 900))
 
 ts = 500
@@ -58,12 +59,15 @@ movementY = {
     pygame.K_s: ws
 }
 
+battle = False
+res = False
+
 
 def mainmenu():
     global run
     main_menu = True
 
-    menu_map = load_map("maps/testmap.pickle")
+    menu_map = load_map("maps/fullmap.pickle")
 
     map_canvas = pygame.Surface((650, 300))
     map_canvas.fill(colors.BLUE)
@@ -110,13 +114,13 @@ while run:
     for event in pygame.event.get():  # Looping through all events
         if event.type == pygame.QUIT:
             run = False
-        elif event.type == pygame.KEYDOWN and event.key in movementX:
+        elif event.type == pygame.KEYDOWN and event.key in movementX and not im.interaction:
             p1.bobs[True] = p1.character_sprite1[event.key]
             p1.bobs[False] = p1.character_sprite2[event.key]
             p1.next_bob = 0
             pmx = True
             pkx = event.key
-        elif event.type == pygame.KEYDOWN and event.key in movementY:
+        elif event.type == pygame.KEYDOWN and event.key in movementY and not im.interaction:
             p1.bobs[True] = p1.character_sprite1[event.key]
             p1.bobs[False] = p1.character_sprite2[event.key]
             p1.next_bob = 0
@@ -138,16 +142,22 @@ while run:
         p1.bobs[True] = p1.character_sprite1[-1]
         p1.bobs[False] = p1.character_sprite2[-1]
 
-    p1.update(dt)
-    whole_map.draw(menuCanvas)
+    if not battle:
+        p1.update(dt)
+        whole_map.draw(menuCanvas)
 
-    screen.fill(colors.BLACK)
+        screen.fill(colors.BLACK)
 
-    p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
-    p1.draw(menuCanvas)
-    npcs.draw(menuCanvas)
-    screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, camera.end_x, camera.end_y))
-    im.update()
+        p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
+        p1.draw(menuCanvas)
+        npcs.draw(menuCanvas)
+        screen.blit(menuCanvas, (0, 0), (camera.begin_x, camera.begin_y, camera.end_x, camera.end_y))
+        res = im.update()
+    if res:
+        if res['event'] == "battle":
+            battle = True
+            b = Battle(screen, res["player1"], res["player2"])
+            res = False
 
     pygame.display.flip()  # Updates the screen
 

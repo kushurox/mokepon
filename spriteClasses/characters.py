@@ -1,10 +1,11 @@
 from itertools import cycle
+from typing import Callable
 
 import pygame
 
 from utils.camera import GameCamera
 from utils.color import BLACK
-from utils.constants import window_size
+from utils.constants import window_size, kd2
 from utils.terrains import GameTerrain, Terrains
 
 dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
@@ -147,8 +148,12 @@ class Player(pygame.sprite.Sprite):
 class NPC(pygame.sprite.Sprite):
     chatbox = pygame.image.load("assets/misc/g2429.png")
     text = dialogue_font.render("Default", False, BLACK)
+    start_action = None
+    start_action_args = []
+    end_action = None
+    end_action_args = None
 
-    def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list):
+    def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list, identity: int):
         super(NPC, self).__init__()
         self.area = area
         dialogues.append(False)  # End of Interaction
@@ -159,18 +164,45 @@ class NPC(pygame.sprite.Sprite):
         self.image = pygame.image.load("assets/char_animation/girl_idle/mpkngirl1.png")
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = terrain.rect.x, terrain.rect.y
+        self.id = identity
 
     def interaction(self, context, event, screen, *args):
         screen.blit(self.chatbox, (0, 490))
         screen.blit(self.text, (32, 522))
+        res = False
 
         if event and event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
+            if self.start_action:
+                res = self.start_action(self, *self.start_action_args)
             d = next(self.dialogues)
             context.event = None
             if d:
                 self.text = dialogue_font.render(d, False, BLACK)
             else:
-                # Do Action here after dialogue gets over!!
+                if self.end_action:
+                    res = self.end_action(self, *self.end_action_args)
                 context.set_interaction(None)
+            return res
 
-        return True
+
+    def set_start_action(self, action: Callable = None, *args):
+        self.start_action = action
+        self.start_action_args = args
+
+    def set_end_action(self, action: Callable = None, *args):
+        self.end_action = action
+        self.end_action_args = args
+
+
+def kushuroxEvil(npc: NPC, *args):
+    npc.dialogues = cycle(kd2 + [False])
+    return {'event': "battle", "player1": args[0], "player2": npc}
+
+
+def kushuroxChild(npc: NPC, *args):
+    if npc.id == 69:
+        print("Nothing")
+    else:
+        npc.set_end_action(kushuroxEvil, *args)
+        npc.end_action(npc, *args)
+        npc.set_start_action(None)
