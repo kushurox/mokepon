@@ -161,7 +161,7 @@ class NPC(pygame.sprite.Sprite):
         self.dialogues = cycle(dialogues)
         self.current_tile = terrain
         self.current_tile.collide = True
-        self.image = pygame.image.load("assets/char_animation/girl_idle/mpkngirl1.png")
+        self.image = pygame.image.load("assets/npcs/kosupai.png")
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = terrain.rect.x, terrain.rect.y
         self.id = identity

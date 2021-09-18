@@ -37,7 +37,8 @@ ids = {
     'hill5.png': 25,
     'hill6.png': 26,
     'hill8.png': 28,
-    'hill7.png': 27
+    'hill7.png': 27,
+    'mier.png':28
 }
 
 
