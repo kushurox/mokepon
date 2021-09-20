@@ -32,8 +32,8 @@ camera = GameCamera(0, 0)
 
 npcs = pygame.sprite.Group()
 
-p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
-terrain = whole_map.get_terrain(100, 100)
+p1 = Player(colors.WHITE, whole_map, 0, camera)  # Making a Player entity
+terrain = whole_map.get_terrain(150, 100)
 npc1 = NPC(terrain, whole_map, kd1, 63)
 npcs.add(npc1)
 npc1.set_start_action(kushuroxChild, p1)
