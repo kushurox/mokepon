@@ -179,6 +179,7 @@ while run:
 
             b = Battle(screen, res["player1"], res["player2"])
 
+
             res = False
 
     pygame.display.flip()  # Updates the screen

@@ -27,6 +27,7 @@ class InteractionManager:
 
 class Battle:
     battle = True
+    bg = pygame.image.load("assets/battle_assets/battle.png")
 
     def __init__(self, screen, p1, p2):
         self.p1 = p1
@@ -43,5 +44,7 @@ class Battle:
             for event in pygame.event.get():
                 print(event)
 
-            self.screen.fill(RED)
+            self.screen.blit(self.bg, (0, 0))
+            self.screen.blit(self.mokepon1.image, (50, 350))
+            self.screen.blit(self.mokepon2.image, (400, 50))
             pygame.display.flip()
