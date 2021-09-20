@@ -45,6 +45,6 @@ class Battle:
                 print(event)
 
             self.screen.blit(self.bg, (0, 0))
-            self.screen.blit(self.mokepon1.image, (50, 350))
+            self.screen.blit(self.mokepon1.image, (50, 250))
             self.screen.blit(self.mokepon2.image, (400, 50))
             pygame.display.flip()
