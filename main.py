@@ -3,16 +3,16 @@ from pygame.time import Clock
 
 import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player, NPC, kushuroxChild  # All the Game entities will be defined here
+from spriteClasses.mokepons import Destroyer, Byru
 from utils.camera import GameCamera
 from utils.constants import window_size, kd1
 from utils.interactionManager import InteractionManager, Battle
 from utils.terrains import load_map
 
 pygame.init()
-# pygame.mixer.init()
-#
-# bgm = pygame.mixer.Sound("assets/misc/bgm.wav")
-# bgm.play(-1)
+
+bgm = pygame.mixer.Sound("assets/music/bgm.mp3")
+bgm.play(-1)
 
 
 screen = pygame.display.set_mode(window_size)
@@ -30,15 +30,27 @@ characters = pygame.sprite.Group()  # Will contain all game entities and updates
 
 camera = GameCamera(0, 0)
 
-npcs = pygame.sprite.Group()
+# PLAYER INIT
+p1 = Player(colors.WHITE, whole_map, 1, camera)  # Making a Player entity
+p1.mokepon = Byru()
 
-p1 = Player(colors.WHITE, whole_map, 0, camera)  # Making a Player entity
-terrain = whole_map.get_terrain(150, 100)
-npc1 = NPC(terrain, whole_map, kd1, 63)
-npcs.add(npc1)
-npc1.set_start_action(kushuroxChild, p1)
+# PLAYER INIT END
+
+
+terrain = whole_map.get_terrain(100, 100)
+
 menuCanvas = pygame.Surface((1400, 900))
 
+#  NPC INIT
+npcs = pygame.sprite.Group()
+kushurox = NPC(terrain, whole_map, kd1, 2)
+npcs.add(kushurox)
+kushurox.set_start_action(kushuroxChild, p1)
+kushurox.mokepon = Destroyer()
+# NPC INIT END
+
+
+# MOVEMENT INIT
 ts = 500
 ws = 50
 pmx = False
@@ -46,9 +58,6 @@ pmy = False
 pkx = None
 pky = None
 wt = (1 / ws) * 7
-
-screen.fill(colors.BLACK)
-
 movementX = {
     pygame.K_a: -ws,
     pygame.K_d: ws
@@ -58,6 +67,10 @@ movementY = {
     pygame.K_w: -ws,
     pygame.K_s: ws
 }
+# MOVEMENT INIT END
+
+screen.fill(colors.BLACK)
+
 
 battle = False
 res = False
@@ -156,7 +169,16 @@ while run:
     if res:
         if res['event'] == "battle":
             battle = True
+
+            print(f"Player 2 id {res['player2'].id}")
+            if res['player2'].id == 2:
+                print("Music played")
+                bgm.stop()
+                bm = pygame.mixer.Sound("assets/music/kushurox.mp3")
+                bm.play(-1)
+
             b = Battle(screen, res["player1"], res["player2"])
+
             res = False
 
     pygame.display.flip()  # Updates the screen

@@ -1,3 +1,10 @@
+import pygame
+
+from utils.color import RED
+
+clock = pygame.time.Clock()
+
+
 class InteractionManager:
     interaction = None
     args = []
@@ -19,12 +26,22 @@ class InteractionManager:
 
 
 class Battle:
+    battle = True
+
     def __init__(self, screen, p1, p2):
         self.p1 = p1
         self.p2 = p2
+        self.mokepon1 = p1.mokepon
+        self.mokepon2 = p2.mokepon
         self.screen = screen
 
         self.start_battle()
 
     def start_battle(self):
-        print(f"Battle occurred between {self.p1} and {self.p2}")
+        while self.battle:
+            dt = clock.tick(30)
+            for event in pygame.event.get():
+                print(event)
+
+            self.screen.fill(RED)
+            pygame.display.flip()

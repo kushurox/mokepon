@@ -12,6 +12,9 @@ dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
 
 
 class Player(pygame.sprite.Sprite):
+
+    mokepon = None
+
     next_bob = 300
 
     gender = None
@@ -152,6 +155,7 @@ class NPC(pygame.sprite.Sprite):
     start_action_args = []
     end_action = None
     end_action_args = None
+    mokepon = None
 
     def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list, identity: int):
         super(NPC, self).__init__()
@@ -200,7 +204,7 @@ def kushuroxEvil(npc: NPC, *args):
 
 
 def kushuroxChild(npc: NPC, *args):
-    if npc.id == 69:
+    if npc.id == 1:
         print("Nothing")
     else:
         npc.set_end_action(kushuroxEvil, *args)
