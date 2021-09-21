@@ -10,6 +10,7 @@ def rot_center(image, angle):
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
 
+
 class Mokepon(pygame.sprite.Sprite):
     name = ""
     hp = 100
@@ -22,6 +23,10 @@ class Mokepon(pygame.sprite.Sprite):
 
     def __init__(self):
         super(Mokepon, self).__init__()
+
+    def attack(self, mokepon, attack_choice: str):
+        mokepon.hp -= (self.attacks[attack_choice][0] - self.defense + random.randint(5, 15))
+        t = self.attacks[attack_choice][1]
 
 
 # Attack structure (damage, delay, image)
@@ -36,10 +41,6 @@ class Destroyer(Mokepon):
         self.image = pygame.image.load("assets/battle_assets/blue_mokepon.png")
         self.rect = self.image.get_rect()
 
-    def attack(self, mokepon: Mokepon, attack_choice: str):
-        mokepon.hp -= (self.attacks[attack_choice][0] - self.defense + random.randint(5, 15))
-        t = self.attacks[attack_choice][1]
-
 
 class Byru(Mokepon):
     defense = 60
@@ -53,23 +54,6 @@ class Byru(Mokepon):
         img = pygame.image.load("assets/battle_assets/crimsonbeam.png")
         img = rot_center(img, -50)
         self.attacks["Crimson Beam"].append(img)
-
-    def attack(self, mokepon: Mokepon, attack_choice: str):
-        mokepon.hp -= (self.attacks[attack_choice][0] - self.defense + random.randint(5, 15))
-        t = self.attacks[attack_choice][1]
-
-class Orb(Mokepon):
-    atk = 100
-    attacks = {"Anurism": [atk * 1.5, 3], "nice": [1], "lol": [12]}
-
-    def __init__(self):
-        super(Orb, self).__init__()
-        self.image = pygame.image.load("assets/battle_assets/green_mokepon.png")
-        self.rect = self.image.get_rect()
-
-    def attack(self, mokepon: Mokepon, attack_choice: str):
-        mokepon.hp -= (self.attacks[attack_choice][0] - self.defense + random.randint(5, 15))
-        t = self.attacks[attack_choice][1]
 
 
 if __name__ == '__main__':
