@@ -34,7 +34,7 @@ class Destroyer(Mokepon):
 class Byru(Mokepon):
     defense = 60
     atk = 70
-    attacks = {"Crimson Beam": [atk * 1.5, 3]}
+    attacks = {"Crimson Beam": [atk * 1.5, 3], "nice": [1], "lol": [12]}
 
     def __init__(self):
         super(Byru, self).__init__()

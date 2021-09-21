@@ -14,7 +14,6 @@ pygame.init()
 bgm = pygame.mixer.Sound("assets/music/bgm.mp3")
 bgm.play(-1)
 
-
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("mokepon")  # Setting up screen title
 
@@ -36,23 +35,23 @@ p1.mokepon = Byru()
 
 # PLAYER INIT END
 
-#npc pos
+# npc pos
 pos1 = whole_map.get_terrain(150, 800)
 pos2 = whole_map.get_terrain(1150, 750)
-#npc pos end
+# npc pos end
 
 
 menuCanvas = pygame.Surface((1400, 900))
 
 #  NPC INIT
 npcs = pygame.sprite.Group()
-#-----------------------#
-kushurox = NPC(pos1, whole_map, kd1, 2,"kosupai")
+# -----------------------#
+kushurox = NPC(pos1, whole_map, kd1, 2, "kosupai")
 npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
 kushurox.mokepon = Destroyer()
-#-----------------------#
-meep = NPC(pos2,whole_map, kd1,1,"mierpng")
+# -----------------------#
+meep = NPC(pos2, whole_map, kd1, 1, "mierpng")
 npcs.add(meep)
 # NPC INIT END
 
@@ -77,7 +76,6 @@ movementY = {
 # MOVEMENT INIT END
 
 screen.fill(colors.BLACK)
-
 
 battle = False
 res = False
@@ -186,8 +184,8 @@ while run:
 
             b = Battle(screen, res["player1"], res["player2"])
 
-
             res = False
+            battle = False
 
     pygame.display.flip()  # Updates the screen
 
