@@ -14,6 +14,8 @@ pygame.init()
 bgm = pygame.mixer.Sound("assets/music/bgm.mp3")
 bgm.play(-1)
 
+bgm.set_volume(0.3)
+
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("mokepon")  # Setting up screen title
 

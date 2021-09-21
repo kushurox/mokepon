@@ -1,9 +1,11 @@
 import pygame
-
+from cmath import sqrt
 from utils.color import BLUE, GREY, RED, YELLOW
-
 clock = pygame.time.Clock()
 
+
+def dist(p, q):
+    return sqrt((p[0] + q[0])**2 + (p[1] - q[1])**2).real
 
 class InteractionManager:
     interaction = None
@@ -90,6 +92,7 @@ class Battle:
 
 
             self.screen.blit(self.bg, (0, 0))
+            self.screen.blit(self.mokepon1.attacks['Crimson Beam'][2], (175, 50 + self.u1))
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
             self.screen.blit(self.mokepon2.image, (400, 70 + self.u2))
             hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, 300, 26), 13, 8)
