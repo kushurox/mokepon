@@ -38,6 +38,7 @@ p1.mokepon = Byru()
 
 #npc pos
 pos1 = whole_map.get_terrain(150, 800)
+pos2 = whole_map.get_terrain(1150, 750)
 #npc pos end
 
 
@@ -45,10 +46,14 @@ menuCanvas = pygame.Surface((1400, 900))
 
 #  NPC INIT
 npcs = pygame.sprite.Group()
-kushurox = NPC(pos1, whole_map, kd1, 2)
+#-----------------------#
+kushurox = NPC(pos1, whole_map, kd1, 2,"kosupai")
 npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
 kushurox.mokepon = Destroyer()
+#-----------------------#
+meep = NPC(pos2,whole_map, kd1,1,"mierpng")
+npcs.add(meep)
 # NPC INIT END
 
 

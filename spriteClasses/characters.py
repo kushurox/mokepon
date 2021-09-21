@@ -157,7 +157,7 @@ class NPC(pygame.sprite.Sprite):
     end_action_args = None
     mokepon = None
 
-    def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list, identity: int):
+    def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list, identity: int, name):
         super(NPC, self).__init__()
         self.area = area
         dialogues.append(False)  # End of Interaction
@@ -165,7 +165,7 @@ class NPC(pygame.sprite.Sprite):
         self.dialogues = cycle(dialogues)
         self.current_tile = terrain
         self.current_tile.collide = True
-        self.image = pygame.image.load("assets/npcs/kosupai.png")
+        self.image = pygame.image.load(f"assets/npcs/{name}.png")
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = terrain.rect.x, terrain.rect.y
         self.id = identity
