@@ -80,7 +80,7 @@ def mainmenu():
     global run
     main_menu = True
 
-    menu_map = load_map("maps/fullmap.pickle")
+    menu_map = load_map("maps/fullmapt.pickle")
 
     map_canvas = pygame.Surface((650, 300))
     map_canvas.fill(colors.BLUE)

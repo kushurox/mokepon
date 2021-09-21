@@ -67,7 +67,7 @@ surfaces = os.listdir("assets/surfaces")
 
 total = len(surfaces)
 
-surfaceCanvas = Assets((100, height + 300))
+surfaceCanvas = Assets((100, height + 450))
 
 for i in surfaces:
     t = Terrain(i)
