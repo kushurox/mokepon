@@ -50,15 +50,20 @@ ids = {
     'haus_26.png':38,
     'haus_27.png':39,
     'door.png':   40,
-    'haus_29.png':41
+    'haus_29.png':41,
+    'bed1.png':42,
+    'bed2.png':43,
+    'box.png':44,
+    'floor.png':45,
+    'carpet.png':46
 }
 
 
 #door.png is door
 
-collide_id = [2,3,4,5,6,7,8,9,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41, -1]
+collide_id = [2,3,4,5,6,7,8,9,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44, -1]
 
-rev_ids = {-1: pygame.image.load(f"{DIR}/hill.png")}
+rev_ids = {-1: pygame.image.load("assets/misc/null.png")}
 
 for key, val in ids.items():
     rev_ids[val] = pygame.image.load(f"{DIR}/{key}")
