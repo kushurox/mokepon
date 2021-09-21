@@ -7,6 +7,7 @@ clock = pygame.time.Clock()
 def dist(p, q):
     return sqrt((p[0] + q[0])**2 + (p[1] - q[1])**2).real
 
+
 class InteractionManager:
     interaction = None
     args = []
