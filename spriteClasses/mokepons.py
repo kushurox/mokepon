@@ -58,6 +58,19 @@ class Byru(Mokepon):
         mokepon.hp -= (self.attacks[attack_choice][0] - self.defense + random.randint(5, 15))
         t = self.attacks[attack_choice][1]
 
+class Orb(Mokepon):
+    atk = 100
+    attacks = {"Anurism": [atk * 1.5, 3], "nice": [1], "lol": [12]}
+
+    def __init__(self):
+        super(Orb, self).__init__()
+        self.image = pygame.image.load("assets/battle_assets/green_mokepon.png")
+        self.rect = self.image.get_rect()
+
+    def attack(self, mokepon: Mokepon, attack_choice: str):
+        mokepon.hp -= (self.attacks[attack_choice][0] - self.defense + random.randint(5, 15))
+        t = self.attacks[attack_choice][1]
+
 
 if __name__ == '__main__':
     d1, d2 = Destroyer(), Destroyer()
