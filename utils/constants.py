@@ -12,3 +12,5 @@ kd1 = ["Help me Trainer!", "This Evil Kid has Stolen my Mokepon", "*Cries*", "Pl
 
 kd2 = ["You Fool!, I just used you for my gain", "You thought i was just a kid", "No! It was me, kushurox!",
        "You Fell for it Hahaha!", "Now i shall rule this world", "Za Warudo!!"]
+
+kd3 = ["...","---","..."]

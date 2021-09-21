@@ -5,7 +5,7 @@ import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player, NPC, kushuroxChild  # All the Game entities will be defined here
 from spriteClasses.mokepons import Destroyer, Byru
 from utils.camera import GameCamera
-from utils.constants import window_size, kd1
+from utils.constants import window_size, kd1,kd2,kd3
 from utils.interactionManager import InteractionManager, Battle
 from utils.terrains import load_map
 
@@ -51,7 +51,7 @@ npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
 kushurox.mokepon = Destroyer()
 # -----------------------#
-meep = NPC(pos2, whole_map, kd1, 1, "mierpng")
+meep = NPC(pos2, whole_map, kd3, 1, "mierpng")
 npcs.add(meep)
 # NPC INIT END
 
