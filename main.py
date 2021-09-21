@@ -24,7 +24,7 @@ gameMenu = True
 
 im = InteractionManager(screen)
 
-whole_map = load_map('maps/fullmap.pickle')
+whole_map = load_map('maps/fullmapt.pickle')
 
 characters = pygame.sprite.Group()  # Will contain all game entities and updates them
 
@@ -36,14 +36,16 @@ p1.mokepon = Byru()
 
 # PLAYER INIT END
 
+#npc pos
+pos1 = whole_map.get_terrain(150, 800)
+#npc pos end
 
-terrain = whole_map.get_terrain(100, 100)
 
 menuCanvas = pygame.Surface((1400, 900))
 
 #  NPC INIT
 npcs = pygame.sprite.Group()
-kushurox = NPC(terrain, whole_map, kd1, 2)
+kushurox = NPC(pos1, whole_map, kd1, 2)
 npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
 kushurox.mokepon = Destroyer()
