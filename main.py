@@ -48,12 +48,12 @@ menuCanvas = pygame.Surface((1400, 900))
 #  NPC INIT
 npcs = pygame.sprite.Group()
 # -----------------------#
-kushurox = NPC(pos1, whole_map, kd1, 2, "kosupai")
+kushurox = NPC(pos1, whole_map, kd1, 2, "kosupai", "kushurox")
 npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
 kushurox.mokepon = Destroyer()
 # -----------------------#
-meep = NPC(pos2, whole_map, kd3, 1, "mierpng")
+meep = NPC(pos2, whole_map, kd3, 1, "mierpng", "mihir")
 npcs.add(meep)
 # NPC INIT END
 

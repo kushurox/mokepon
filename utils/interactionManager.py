@@ -53,6 +53,8 @@ class Battle:
     battle_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 24)
     anim_time = 0
     atk_choice = None
+    hp1 = 300
+    hp2 = 300
 
     def __init__(self, screen, p1, p2):
         self.p1 = p1
@@ -84,24 +86,41 @@ class Battle:
 
         self.start_battle()
 
-    def attack(self, attack_choice: str):
-        self.mokepon2.hp -= ((self.mokepon1.attacks[attack_choice][0] - self.mokepon2.defense) + random.randint(5, 15))
+    def attack(self, attack_choice: str, attacker, defender):
+        orig = defender.hp
+        name = {1: self.p1, 2: self.p2}[self.turn].identity
+        self.dialogue([f"{name} used {attack_choice}!!"])
+        defender.hp -= ((attacker.attacks[attack_choice][0] - defender.defense) + random.randint(5, 15))
+        changed = orig - defender.hp
         x, y = 175, 50
         while self.anim_time > 0:
             dt = clock.tick(30)
-            e = dt/1000
-            y -= 20 * e
-            x += 60 * e
+            e = dt / 1000
+            if self.turn == 1:  # Too lazy to optimise
+                y -= 50 * e
+                x += 100 * e
+            else:
+                y += 100 * e
+                x -= 50 * e
+
             self.anim_time -= dt
             self.screen.blit(self.bg, (0, 0))
-            self.screen.blit(self.mokepon1.attacks[attack_choice][2], (x, y))
+            self.screen.blit(attacker.attacks[attack_choice][2], (x, y))
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
             self.screen.blit(self.mokepon2.image, (400, 70 + self.u2))
-
+            hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
+            hp2 = pygame.draw.rect(self.screen, RED, (350, 0, self.hp2, 26), 13, 8)
             pygame.display.flip()
 
-        self.dialogue(['hi', 'sup', 'kushurox'], pygame.image.load("assets/misc/koshugun.png"))
-        self.turn = 0  # Change this to 2 later, 0 is for my own turn
+        if self.turn == 1:
+            self.hp2 = (defender.hp / 100) * 300
+        else:
+            self.hp1 = (defender.hp / 100) * 300
+        self.dialogue([f"It did {changed} damage!"])
+        hp2 = pygame.draw.rect(self.screen, RED, (350, 0, self.hp2, 26), 13, 8)
+        hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
+        pygame.display.flip()
+        self.turn = {1: 2, 2: 0}[self.turn]
 
     def dialogue(self, d: list, player=None):
         self.screen.blit(self.bg, (0, 0))
@@ -109,12 +128,13 @@ class Battle:
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
             self.screen.blit(self.mokepon2.image, (400, 70 + self.u2))
         else:
-            self.screen.blit(player, (200, 400)) #  Dialogue Player Position
+            self.screen.blit(player, (200, 400))  # Dialogue Player Position
         d.append('')
         index = 0
         cd = d[index]
         fnt = self.battle_font.render(cd, False, WHITE)
-        while index < len(d)-1:
+        while index < len(d) - 1:
+            clock.tick(30)
             for event in pygame.event.get():
                 if event.type == pygame.KEYUP:
                     index += 1
@@ -125,7 +145,6 @@ class Battle:
             self.HUD.fill(GREY)
             self.HUD.blit(fnt, (30, 30))
             pygame.display.flip()
-
 
     def start_battle(self):
         while self.battle:
@@ -144,8 +163,8 @@ class Battle:
 
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
             self.screen.blit(self.mokepon2.image, (400, 70 + self.u2))
-            hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, 300, 26), 13, 8)
-            hp2 = pygame.draw.rect(self.screen, RED, (350, 0, 650, 26), 13, 8)
+            hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
+            hp2 = pygame.draw.rect(self.screen, RED, (350, 0, self.hp2, 26), 13, 8)
 
             self.tu1 -= dt
             if self.tu1 <= 0:
@@ -174,7 +193,13 @@ class Battle:
                         h = 0
             else:
                 if self.turn == 1:
-                    self.attack(self.atk_choice)
+                    self.attack(self.atk_choice, self.mokepon1, self.mokepon2)
+                elif self.turn == 2:
+                    self.atk_choice = random.choice(list(self.mokepon2.attacks))
+                    self.anim_time = self.mokepon2.attacks[self.atk_choice][1]
+                    self.attack(self.atk_choice, self.mokepon2, self.mokepon1)
+
                 self.HUD.fill(GREY)
+
 
             pygame.display.flip()

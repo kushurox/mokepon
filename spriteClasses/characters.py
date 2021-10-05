@@ -12,6 +12,7 @@ dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
 
 
 class Player(pygame.sprite.Sprite):
+    identity = "Protagonist-san"
     mokepon = None
 
     next_bob = 300
@@ -26,17 +27,11 @@ class Player(pygame.sprite.Sprite):
     }
 
     area = None
-
     moving = False
-
     tt = None
-
     status = False
-
     PLAYER_SIZE = (50, 50)
-
     bobs = {}
-
     facing_tile = None
 
     def __init__(self, color: tuple, whole_area: Terrains, gender: int, camera: GameCamera):
@@ -156,15 +151,16 @@ class NPC(pygame.sprite.Sprite):
     end_action_args = None
     mokepon = None
 
-    def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list, identity: int, name):
+    def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list, identity: int, image_name, name):
         super(NPC, self).__init__()
         self.area = area
         dialogues.append(False)  # End of Interaction
         self.area.terrain_to_entity[terrain] = self
         self.dialogues = cycle(dialogues)
+        self.identity = name
         self.current_tile = terrain
         self.current_tile.collide = True
-        self.image = pygame.image.load(f"assets/npcs/{name}.png")
+        self.image = pygame.image.load(f"assets/npcs/{image_name}.png")
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = terrain.rect.x, terrain.rect.y
         self.id = identity

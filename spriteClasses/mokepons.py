@@ -40,12 +40,15 @@ class Destroyer(Mokepon):
         super(Destroyer, self).__init__()
         self.image = pygame.image.load("assets/battle_assets/blue_mokepon.png")
         self.rect = self.image.get_rect()
+        img = pygame.image.load("assets/battle_assets/missile.png")
+        img = rot_center(img, 210)
+        self.attacks['explosion'].append(img)
 
 
 class Byru(Mokepon):
     defense = 60
     atk = 40
-    attacks = {"Crimson Beam": [atk * 1.5, 3000]}
+    attacks = {"Crimson Beam": [atk * 1.5, 1000]}
 
     def __init__(self):
         super(Byru, self).__init__()
