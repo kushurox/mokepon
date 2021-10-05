@@ -2,6 +2,8 @@ import random
 
 import pygame
 from cmath import sqrt
+
+from spriteClasses.characters import Player, NPC
 from utils.color import BLUE, GREY, RED, YELLOW, BLACK, WHITE
 
 clock = pygame.time.Clock()
@@ -56,7 +58,7 @@ class Battle:
     hp1 = 300
     hp2 = 300
 
-    def __init__(self, screen, p1, p2):
+    def __init__(self, screen, p1: Player, p2: NPC):
         self.p1 = p1
         self.p2 = p2
         self.mokepon1 = p1.mokepon
@@ -121,6 +123,12 @@ class Battle:
         hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
         pygame.display.flip()
         self.turn = {1: 2, 2: 0}[self.turn]
+        if self.mokepon1.hp <= 0:
+            self.dialogue(self.p2.victory_action(), self.p2.dialogue_image)
+            self.battle = False
+        elif self.mokepon2.hp <= 0:
+            self.dialogue(self.p2.defeat_action(), self.p2.dialogue_image)
+            self.battle = False
 
     def dialogue(self, d: list, player=None):
         self.screen.blit(self.bg, (0, 0))

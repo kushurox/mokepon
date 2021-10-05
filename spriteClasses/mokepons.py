@@ -67,6 +67,8 @@ class Orb(Mokepon):
         self.image = pygame.image.load("assets/battle_assets/green_mokepon.png")
         self.rect = self.image.get_rect()
 
+# TODO Change attack architecture
+
 
 if __name__ == '__main__':
     d1, d2 = Destroyer(), Destroyer()

@@ -5,7 +5,7 @@ import pygame
 
 from utils.camera import GameCamera
 from utils.color import BLACK
-from utils.constants import window_size, kd2
+from utils.constants import window_size, kd2, kd4
 from utils.terrains import GameTerrain, Terrains
 
 dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
@@ -150,6 +150,10 @@ class NPC(pygame.sprite.Sprite):
     end_action = None
     end_action_args = None
     mokepon = None
+    victory_action = None
+    victory_action_args = None
+    defeat_action = None
+    defeat_args = None
 
     def __init__(self, terrain: GameTerrain, area: Terrains, dialogues: list, identity: int, image_name, name):
         super(NPC, self).__init__()
@@ -158,6 +162,7 @@ class NPC(pygame.sprite.Sprite):
         self.area.terrain_to_entity[terrain] = self
         self.dialogues = cycle(dialogues)
         self.identity = name
+        self.dialogue_image = pygame.image.load(f"assets/dialogue_Assets/{name}.png")
         self.current_tile = terrain
         self.current_tile.collide = True
         self.image = pygame.image.load(f"assets/npcs/{image_name}.png")
@@ -191,6 +196,14 @@ class NPC(pygame.sprite.Sprite):
         self.end_action = action
         self.end_action_args = args
 
+    def set_victory_action(self, action: Callable, *args):
+        self.victory_action = action
+        self.victory_action_args = args
+
+    def set_defeat_action(self, action: Callable, *args):
+        self.defeat_action = action
+        self.defeat_args = args
+
 
 def kushuroxEvil(npc: NPC, *args):
     npc.dialogues = cycle(kd2 + [False])
@@ -204,3 +217,14 @@ def kushuroxChild(npc: NPC, *args):
         npc.set_end_action(kushuroxEvil, *args)
         npc.end_action(npc, *args)
         npc.set_start_action(None)
+
+
+def kushuroxLose(npc: NPC):
+    npc.dialogues = cycle(kd4 + [False])
+    return ["What!?", "I have lost!?", "The Great kushurox!?",
+            "You will pay for this!", "...", "...", "kushurox has disappeared"]
+
+
+def kushuroxWin():
+    return ["You were 100 years early to take me on", "Better luck next time kid",
+            "After all it is i kushurox", "You never Stood a chance", "Farewell"]

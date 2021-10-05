@@ -2,7 +2,8 @@ import pygame
 from pygame.time import Clock
 
 import utils.color as colors  # Use the colors.py to define ur color
-from spriteClasses.characters import Player, NPC, kushuroxChild  # All the Game entities will be defined here
+from spriteClasses.characters import Player, NPC, kushuroxChild, \
+    kushuroxWin, kushuroxLose  # All the Game entities will be defined here
 from spriteClasses.mokepons import Destroyer, Byru
 from utils.camera import GameCamera
 from utils.constants import window_size, kd1,kd2,kd3
@@ -11,10 +12,10 @@ from utils.terrains import load_map
 
 pygame.init()
 
-bgm = pygame.mixer.Sound("assets/music/bgm.mp3")
-bgm.play(-1)
+song = pygame.mixer.Sound("assets/music/bgm.mp3")
+song.play(-1)
 
-bgm.set_volume(0.3)
+song.set_volume(0.3)
 
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("mokepon")  # Setting up screen title
@@ -51,6 +52,8 @@ npcs = pygame.sprite.Group()
 kushurox = NPC(pos1, whole_map, kd1, 2, "kosupai", "kushurox")
 npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
+kushurox.set_victory_action(kushuroxWin)
+kushurox.set_defeat_action(kushuroxLose)
 kushurox.mokepon = Destroyer()
 # -----------------------#
 meep = NPC(pos2, whole_map, kd3, 1, "mierpng", "mihir")
@@ -180,11 +183,17 @@ while run:
             print(f"Player 2 id {res['player2'].id}")
             if res['player2'].id == 2:
                 print("Music played")
-                bgm.stop()
-                bm = pygame.mixer.Sound("assets/music/kushurox.mp3")
-                bm.play(-1)
+                song.stop()
+                song = pygame.mixer.Sound("assets/music/kushurox.mp3")
+                song.play(-1)
+                song.set_volume(0.3)
 
             b = Battle(screen, res["player1"], res["player2"])
+
+            song = pygame.mixer.Sound("assets/music/bgm.mp3")
+            song.play(-1)
+
+            song.set_volume(0.3)
 
             res = False
             battle = False
