@@ -189,7 +189,7 @@ while run:
                 song.set_volume(0.3)
 
             b = Battle(screen, res["player1"], res["player2"])
-
+            song.stop()
             song = pygame.mixer.Sound("assets/music/bgm.mp3")
             song.play(-1)
 
