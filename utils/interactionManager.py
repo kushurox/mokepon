@@ -181,7 +181,7 @@ class Battle:
                 self.tu1 = 1000
 
             self.screen.blit(self.HUD, (0, 500))
-            if not self.turn:  # TODO: ADD DIALOGUE MANAGER
+            if not self.turn:
                 s = 0
                 h = 0
                 mx, my = pygame.mouse.get_pos()
