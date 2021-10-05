@@ -1,6 +1,8 @@
 import pygame
 import random
 
+clock = pygame.time.Clock()
+
 
 def rot_center(image, angle):
     orig_rect = image.get_rect()
@@ -21,12 +23,10 @@ class Mokepon(pygame.sprite.Sprite):
     projectile = None
     sound_effect = None
 
+    temp_time = 0
+
     def __init__(self):
         super(Mokepon, self).__init__()
-
-    def attack(self, mokepon, attack_choice: str):
-        mokepon.hp -= (self.attacks[attack_choice][0] - self.defense + random.randint(5, 15))
-        t = self.attacks[attack_choice][1]
 
 
 # Attack structure (damage, delay, image)
@@ -34,7 +34,7 @@ class Mokepon(pygame.sprite.Sprite):
 class Destroyer(Mokepon):
     atk = 95
     defense = 40
-    attacks = {"explosion": [atk * 1.5, 3]}
+    attacks = {"explosion": [atk * 1.5, 3000]}
 
     def __init__(self):
         super(Destroyer, self).__init__()
@@ -44,8 +44,8 @@ class Destroyer(Mokepon):
 
 class Byru(Mokepon):
     defense = 60
-    atk = 70
-    attacks = {"Crimson Beam": [atk * 1.5, 3]}
+    atk = 40
+    attacks = {"Crimson Beam": [atk * 1.5, 3000]}
 
     def __init__(self):
         super(Byru, self).__init__()
@@ -67,3 +67,4 @@ class Orb(Mokepon):
 
 if __name__ == '__main__':
     d1, d2 = Destroyer(), Destroyer()
+    d1.attack(d2, "explosion")

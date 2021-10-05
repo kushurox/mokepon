@@ -12,7 +12,6 @@ dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
 
 
 class Player(pygame.sprite.Sprite):
-
     mokepon = None
 
     next_bob = 300
@@ -187,7 +186,6 @@ class NPC(pygame.sprite.Sprite):
                     res = self.end_action(self, *self.end_action_args)
                 context.set_interaction(None)
             return res
-
 
     def set_start_action(self, action: Callable = None, *args):
         self.start_action = action
