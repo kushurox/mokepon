@@ -148,7 +148,7 @@ class Battle:
         pygame.display.flip()
         self.turn = {1: 2, 2: 0}[self.turn]
         if self.mokepon1.hp <= 0:
-            self.dialogue(self.p2.victory_action(), self.p2.dialogue_image)
+            self.dialogue(self.p2.victory_action(*self.p2.victory_action_args), self.p2.dialogue_image)
             self.battle = False
         elif self.mokepon2.hp <= 0:
             self.dialogue(self.p2.defeat_action(*self.p2.defeat_args), self.p2.dialogue_image)
