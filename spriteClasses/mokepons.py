@@ -50,12 +50,13 @@ class Byru(Mokepon):
 
 class Orb(Mokepon):
     atk = 100
-    attacks = {"Anurism": [atk * 1.5, 3], "nice": [1], "lol": [12]}
+    attacks = {}
 
     def __init__(self):
         super(Orb, self).__init__()
         self.image = pygame.image.load("assets/battle_assets/green_mokepon.png")
         self.rect = self.image.get_rect()
+        self.attacks["Explosion"] = Explosion(self, dmg=self.atk, anim_time=3000)
 
 
 # TODO Change attack architecture

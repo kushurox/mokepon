@@ -228,3 +228,11 @@ def kushuroxLose(npc: NPC):
 def kushuroxWin():
     return ["You were 100 years early to take me on", "Better luck next time kid",
             "After all it is i kushurox", "You never Stood a chance", "Farewell"]
+
+
+def meerBattle(npc: NPC, *args):
+    return {'event': "battle", "player1": args[0], "player2": npc}
+
+
+def meer():
+    return [".......", "--------", "........"]
