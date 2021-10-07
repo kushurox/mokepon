@@ -64,6 +64,8 @@ class Battle:
         self.mokepon1 = p1.mokepon
         self.mokepon2 = p2.mokepon
 
+        current_attack = None
+
         self.attacks1 = []
         self.fonts = {}
         s, h = 0, 500
@@ -92,27 +94,24 @@ class Battle:
         orig = defender.hp
         name = {1: self.p1, 2: self.p2}[self.turn].identity
         self.dialogue([f"{name} used {attack_choice}!!"])
-        defender.hp -= ((attacker.attacks[attack_choice][0] - defender.defense) + random.randint(5, 15))
+        defender.hp -= self.current_attack.get_damage(defender.defense)
         changed = orig - defender.hp
         x, y = 175, 50
         while self.anim_time > 0:
             dt = clock.tick(30)
             e = dt / 1000
-            if self.turn == 1:  # Too lazy to optimise
-                y -= 50 * e
-                x += 100 * e
-            else:
-                y += 100 * e
-                x -= 50 * e
 
             self.anim_time -= dt
             self.screen.blit(self.bg, (0, 0))
-            self.screen.blit(attacker.attacks[attack_choice][2], (x, y))
+            # self.screen.blit(attacker.attacks[attack_choice][2], (x, y))
+            self.current_attack.animate(self, e, 175, 50)
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
             self.screen.blit(self.mokepon2.image, (400, 70 + self.u2))
             hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
             hp2 = pygame.draw.rect(self.screen, RED, (350, 0, self.hp2, 26), 13, 8)
             pygame.display.flip()
+
+        self.current_attack.reset()  # Resetting the offset values
 
         if self.turn == 1:
             self.hp2 = (defender.hp / 100) * 300
@@ -166,7 +165,8 @@ class Battle:
                         if not self.turn and atk.rect.collidepoint(x, y):
                             self.turn = 1
                             self.atk_choice = atk.atk_name
-                            self.anim_time = self.mokepon1.attacks[atk.atk_name][1]
+                            self.current_attack = self.mokepon1.attacks[atk.atk_name]
+                            self.anim_time = self.current_attack.anim_time
             self.screen.blit(self.bg, (0, 0))
 
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
@@ -204,7 +204,8 @@ class Battle:
                     self.attack(self.atk_choice, self.mokepon1, self.mokepon2)
                 elif self.turn == 2:
                     self.atk_choice = random.choice(list(self.mokepon2.attacks))
-                    self.anim_time = self.mokepon2.attacks[self.atk_choice][1]
+                    self.current_attack = self.mokepon2.attacks[self.atk_choice]
+                    self.anim_time = self.current_attack.anim_time
                     self.attack(self.atk_choice, self.mokepon2, self.mokepon1)
 
                 self.HUD.fill(GREY)

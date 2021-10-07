@@ -1,16 +1,8 @@
 import pygame
-import random
+
+from utils.attacks import Explosion, CrimsonBeam
 
 clock = pygame.time.Clock()
-
-
-def rot_center(image, angle):
-    orig_rect = image.get_rect()
-    rot_image = pygame.transform.rotate(image, angle)
-    rot_rect = orig_rect.copy()
-    rot_rect.center = rot_image.get_rect().center
-    rot_image = rot_image.subsurface(rot_rect).copy()
-    return rot_image
 
 
 class Mokepon(pygame.sprite.Sprite):
@@ -34,29 +26,26 @@ class Mokepon(pygame.sprite.Sprite):
 class Destroyer(Mokepon):
     atk = 95
     defense = 40
-    attacks = {"explosion": [atk * 1.5, 3000]}
+    attacks = {}
 
     def __init__(self):
         super(Destroyer, self).__init__()
         self.image = pygame.image.load("assets/battle_assets/blue_mokepon.png")
         self.rect = self.image.get_rect()
-        img = pygame.image.load("assets/battle_assets/missile.png")
-        img = rot_center(img, 210)
-        self.attacks['explosion'].append(img)
+        self.attacks["Explosion"] = Explosion(dmg=self.atk, anim_time=3000)
 
 
 class Byru(Mokepon):
     defense = 60
     atk = 40
-    attacks = {"Crimson Beam": [atk * 1.5, 1000]}
+    attacks = {}
 
     def __init__(self):
         super(Byru, self).__init__()
         self.image = pygame.image.load("assets/battle_assets/red_mokepon.png")
         self.rect = self.image.get_rect()
-        img = pygame.image.load("assets/battle_assets/crimsonbeam.png")
-        img = rot_center(img, -50)
-        self.attacks["Crimson Beam"].append(img)
+        self.attacks["Crimson Beam"] = CrimsonBeam(dmg=self.atk, anim_time=1500)
+
 
 class Orb(Mokepon):
     atk = 100
@@ -66,6 +55,7 @@ class Orb(Mokepon):
         super(Orb, self).__init__()
         self.image = pygame.image.load("assets/battle_assets/green_mokepon.png")
         self.rect = self.image.get_rect()
+
 
 # TODO Change attack architecture
 
