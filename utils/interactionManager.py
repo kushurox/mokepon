@@ -1,10 +1,10 @@
 import random
 
 import pygame
-from cmath import sqrt
+from math import sqrt, sin, cos, radians
 
 from spriteClasses.characters import Player, NPC
-from utils.color import BLUE, GREY, RED, YELLOW, WHITE
+from utils.color import BLUE, GREY, RED, YELLOW, WHITE, DEFAULT_CONTAINER, BLACK, GREEN
 
 clock = pygame.time.Clock()
 
@@ -61,6 +61,27 @@ class Battle:
     hp1 = 300
     hp2 = 300
 
+    def loading_screen(self):
+        angular_vel = 90  # per second
+        angle = 0
+        self.screen.fill(DEFAULT_CONTAINER)
+        dt = clock.tick(60) / 1000
+        displaybox = pygame.Surface([60, 60])
+        while angle >= -360:
+            displaybox.fill(DEFAULT_CONTAINER)
+            dt = clock.tick(60)/1000
+            for event in pygame.event.get():
+                pass
+
+            a = radians(angle)
+            x, y = 325 + (cos(a)*100), 325 + (sin(a)*100)
+            pygame.draw.circle(self.screen, GREEN, (x, y), 5)
+            p = str(-(angle*100)//360) + "%"
+            displaybox.blit(self.battle_font.render(p, False, WHITE), (0, 0))
+            self.screen.blit(displaybox, (300, 300))
+            angle -= angular_vel * dt
+            pygame.display.flip()
+
     def __init__(self, screen, p1: Player, p2: NPC):
         self.p1 = p1
         self.p2 = p2
@@ -88,6 +109,8 @@ class Battle:
         self.screen = screen
 
         self.HUD.fill(GREY)
+
+        self.loading_screen();
 
         self.start_battle()
 
@@ -137,7 +160,7 @@ class Battle:
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
             self.screen.blit(self.mokepon2.image, (400, 70 + self.u2))
         else:
-            self.screen.blit(player, (200, 400))  # Dialogue Player Position
+            self.screen.blit(player, (150, 150))  # Dialogue Player Position
         d.append('')
         index = 0
         cd = d[index]

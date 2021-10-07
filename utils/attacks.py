@@ -81,14 +81,14 @@ class Harden(Attack):
         super(Harden, self).__init__(mokepon, dmg, anim_time)
 
     def animate(self, context, dt, x, y):
-        self.offset_x += 100 * dt
+        self.offset_x += 60 * dt
         show_pos = (PLAYER_MOKEPON_POSITION[0] + MOKEPON_SPRITE_SIZE//2,
                     PLAYER_MOKEPON_POSITION[1] + MOKEPON_SPRITE_SIZE//2)
         pygame.draw.circle(context.screen, RED, show_pos, self.offset_x)
 
     def status(self, context, changed):
-        context.dialogue([f"{self.mokepon.__class__.__name__}'s defense has increased by 50!"])
-        self.mokepon.defense += 50
+        context.dialogue([f"{self.mokepon.__class__.__name__}'s defense has increased by 30!"])
+        self.mokepon.defense += 30
 
 
 

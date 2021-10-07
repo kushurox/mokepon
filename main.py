@@ -1,3 +1,5 @@
+from math import sin, cos, radians
+
 import pygame
 from pygame.time import Clock
 
@@ -6,11 +8,13 @@ from spriteClasses.characters import Player, NPC, kushuroxChild, \
     kushuroxWin, kushuroxLose  # All the Game entities will be defined here
 from spriteClasses.mokepons import Destroyer, Byru
 from utils.camera import GameCamera
-from utils.constants import window_size, kd1,kd2,kd3
+from utils.constants import window_size, kd1, kd2, kd3
 from utils.interactionManager import InteractionManager, Battle
 from utils.terrains import load_map
 
 pygame.init()
+
+battle_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 24)
 
 song = pygame.mixer.Sound("assets/music/bgm.mp3")
 song.play(-1)
@@ -86,6 +90,28 @@ battle = False
 res = False
 
 
+def loading_screen():
+    angular_vel = 90  # per second
+    angle = 0
+    screen.fill(colors.DEFAULT_CONTAINER)
+    dt = clock.tick(60) / 1000
+    displaybox = pygame.Surface([60, 60])
+    while angle >= -360:
+        displaybox.fill(colors.DEFAULT_CONTAINER)
+        dt = clock.tick(60) / 1000
+        for event in pygame.event.get():
+            pass
+
+        a = radians(angle)
+        x, y = 325 + (cos(a) * 100), 325 + (sin(a) * 100)
+        pygame.draw.circle(screen, colors.GREEN, (x, y), 5)
+        p = str(-(angle * 100) // 360) + "%"
+        displaybox.blit(battle_font.render(p, False, colors.WHITE), (0, 0))
+        screen.blit(displaybox, (300, 300))
+        angle -= angular_vel * dt
+        pygame.display.flip()
+
+
 def mainmenu():
     global run
     main_menu = True
@@ -131,6 +157,7 @@ def mainmenu():
 
 
 mainmenu()
+loading_screen()
 
 while run:
     dt = clock.tick(30)
