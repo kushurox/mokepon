@@ -5,7 +5,7 @@ from pygame.time import Clock
 
 import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player, NPC, kushuroxChild, \
-    kushuroxWin, kushuroxLose, meerBattle, meer  # All the Game entities will be defined here
+    kushuroxEvil,kushuroxWin, kushuroxLose, meerBattle, meer  # All the Game entities will be defined here
 from spriteClasses.mokepons import Destroyer, Byru, Orb
 from utils.camera import GameCamera
 from utils.constants import window_size, kd1, kd3
@@ -55,12 +55,12 @@ npcs = pygame.sprite.Group()
 # -----------------------#
 kushurox = NPC(pos1, whole_map, kd1, 1, "kosupai", "kushurox")
 npcs.add(kushurox)
-kushurox.set_start_action(kushuroxChild, p1)
+kushurox.set_start_action(kushuroxEvil, p1)
 kushurox.set_victory_action(kushuroxWin)
 kushurox.set_defeat_action(kushuroxLose, p1)
 kushurox.mokepon = Destroyer()
 # -----------------------#
-meep = NPC(pos2, whole_map, kd3, 3, "mierpng", "mihir")
+meep = NPC(pos2, whole_map, kd3, 3, "mierpng", "Meep")
 meep.set_end_action(meerBattle, p1)
 meep.set_victory_action(meer, p1)
 meep.set_defeat_action(meer, p1)

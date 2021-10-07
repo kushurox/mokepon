@@ -47,7 +47,7 @@ class Attack(pygame.sprite.Sprite):  # Inheriting from pygame.sprite.Sprite Clas
 
 
 class Explosion(Attack):
-    dmg_ratio = 1.5
+    dmg_ratio = 5
 
     def __init__(self, mokepon, dmg, anim_time):
         super(Explosion, self).__init__(mokepon, dmg, anim_time)
@@ -88,7 +88,7 @@ class Harden(Attack):
 
     def status(self, context, changed):
         context.dialogue([f"{self.mokepon.__class__.__name__}'s defense has increased by 30!"])
-        self.mokepon.defense += 30
+        self.mokepon.defense += 60
 
 
 
