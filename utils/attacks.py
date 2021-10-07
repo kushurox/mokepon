@@ -88,7 +88,7 @@ class Harden(Attack):
 
     def status(self, context, changed):
         context.dialogue([f"{self.mokepon.__class__.__name__}'s defense has increased by 30!"])
-        self.mokepon.defense += 60
+        self.mokepon.defense += 30
 
 
 
