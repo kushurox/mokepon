@@ -3,7 +3,7 @@ import pygame
 from spriteClasses.container import Air
 from utils.camera import EditorCamera
 from utils.color import BLACK, GREEN, RED, BLUE, WHITE
-from utils.constants import letters
+from utils.constants import LETTERS
 import os
 import numpy as np
 
@@ -149,7 +149,7 @@ while gameRun:
 
         elif CONTEXT == 2:
             if event.type == pygame.KEYUP:
-                if event.unicode not in letters:
+                if event.unicode not in LETTERS:
                     if event.key == pygame.K_BACKSPACE:
                         save_canvas.fill(GREEN)
                         filename_s = filename_s[:-1]

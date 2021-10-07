@@ -53,7 +53,7 @@ kushurox = NPC(pos1, whole_map, kd1, 2, "kosupai", "kushurox")
 npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
 kushurox.set_victory_action(kushuroxWin)
-kushurox.set_defeat_action(kushuroxLose)
+kushurox.set_defeat_action(kushuroxLose, p1)
 kushurox.mokepon = Destroyer()
 # -----------------------#
 meep = NPC(pos2, whole_map, kd3, 1, "mierpng", "mihir")

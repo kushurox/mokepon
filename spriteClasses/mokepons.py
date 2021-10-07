@@ -1,6 +1,6 @@
 import pygame
 
-from utils.attacks import Explosion, CrimsonBeam
+from utils.attacks import Explosion, CrimsonBeam, Harden
 
 clock = pygame.time.Clock()
 
@@ -32,7 +32,7 @@ class Destroyer(Mokepon):
         super(Destroyer, self).__init__()
         self.image = pygame.image.load("assets/battle_assets/blue_mokepon.png")
         self.rect = self.image.get_rect()
-        self.attacks["Explosion"] = Explosion(dmg=self.atk, anim_time=3000)
+        self.attacks["Explosion"] = Explosion(self, dmg=self.atk, anim_time=3000)
 
 
 class Byru(Mokepon):
@@ -44,7 +44,8 @@ class Byru(Mokepon):
         super(Byru, self).__init__()
         self.image = pygame.image.load("assets/battle_assets/red_mokepon.png")
         self.rect = self.image.get_rect()
-        self.attacks["Crimson Beam"] = CrimsonBeam(dmg=self.atk, anim_time=1500)
+        self.attacks["Crimson Beam"] = CrimsonBeam(self, dmg=self.atk, anim_time=1500)
+        self.attacks["Harden"] = Harden(self, dmg=0, anim_time=2000)
 
 
 class Orb(Mokepon):

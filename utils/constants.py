@@ -1,7 +1,7 @@
 default_sprite_res = (50, 50)
 unit = 50
 
-letters = "abcdefghijklmnopqrstuvwxyz "
+LETTERS = "abcdefghijklmnopqrstuvwxyz "
 
 window_size = window_width, window_height = 650, 650  # Setting the screen resolution
 
@@ -16,3 +16,8 @@ kd2 = ["You Fool!, I just used you for my gain", "You thought i was just a kid",
 kd4 = ["Pft, You just got Lucky"]
 
 kd3 = ["...","---","..."]
+
+MOKEPON_SPRITE_SIZE = 200
+
+PLAYER_MOKEPON_POSITION = (50, 300)
+ENEMY_MOKEPON_POSITION = (400, 70)

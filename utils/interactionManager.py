@@ -4,7 +4,7 @@ import pygame
 from cmath import sqrt
 
 from spriteClasses.characters import Player, NPC
-from utils.color import BLUE, GREY, RED, YELLOW, BLACK, WHITE
+from utils.color import BLUE, GREY, RED, YELLOW, WHITE
 
 clock = pygame.time.Clock()
 
@@ -52,6 +52,9 @@ class Battle:
     tu1 = 1000
     u1 = 2
     u2 = -2
+
+    current_attack = None
+
     battle_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 24)
     anim_time = 0
     atk_choice = None
@@ -63,8 +66,6 @@ class Battle:
         self.p2 = p2
         self.mokepon1 = p1.mokepon
         self.mokepon2 = p2.mokepon
-
-        current_attack = None
 
         self.attacks1 = []
         self.fonts = {}
@@ -117,7 +118,8 @@ class Battle:
             self.hp2 = (defender.hp / 100) * 300
         else:
             self.hp1 = (defender.hp / 100) * 300
-        self.dialogue([f"It did {changed} damage!"])
+        # self.dialogue([f"It did {changed} damage!"])
+        self.current_attack.status(self, changed)
         hp2 = pygame.draw.rect(self.screen, RED, (350, 0, self.hp2, 26), 13, 8)
         hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
         pygame.display.flip()
@@ -126,7 +128,7 @@ class Battle:
             self.dialogue(self.p2.victory_action(), self.p2.dialogue_image)
             self.battle = False
         elif self.mokepon2.hp <= 0:
-            self.dialogue(self.p2.defeat_action(), self.p2.dialogue_image)
+            self.dialogue(self.p2.defeat_action(*self.p2.defeat_args), self.p2.dialogue_image)
             self.battle = False
 
     def dialogue(self, d: list, player=None):
@@ -209,6 +211,5 @@ class Battle:
                     self.attack(self.atk_choice, self.mokepon2, self.mokepon1)
 
                 self.HUD.fill(GREY)
-
 
             pygame.display.flip()
