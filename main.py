@@ -67,7 +67,7 @@ kushurox.set_victory_action(kushuroxWin)
 kushurox.set_defeat_action(kushuroxLose, p1)
 kushurox.mokepon = Destroyer()
 # -----------------------#
-meep = NPC(pos2, whole_map, kd3, 2, "mierpng", "mihir")
+meep = NPC(pos2, whole_map, kd3, 2, "mierpng", "Meep")
 meep.set_end_action(meerBattle, p1)
 meep.set_victory_action(meerWin, p1)
 meep.set_defeat_action(meerLose, p1)
@@ -76,7 +76,7 @@ npcs.add(meep)
 # NPC INIT END
 
 # Random Objects
-dummy_bomb = NPC(whole_map.get_terrain(500, 500), whole_map,
+dummy_bomb = NPC(whole_map.get_terrain(500, 350), whole_map,
                  ObjectDialogues.dummy_bomb, 6, "objects/dummy_bomb", "bomb")
 npcs.add(dummy_bomb)
 

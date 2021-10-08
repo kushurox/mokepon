@@ -47,7 +47,7 @@ class Attack(pygame.sprite.Sprite):  # Inheriting from pygame.sprite.Sprite Clas
 
 
 class Explosion(Attack):
-    dmg_ratio = 5
+    dmg_ratio = 1.5
 
     def __init__(self, mokepon, dmg, anim_time):
         super(Explosion, self).__init__(mokepon, dmg, anim_time)
@@ -96,10 +96,14 @@ class Cut(Attack):
 
     def animate(self, context, dt, x, y):
         self.offset_y += 100 * dt
-        pygame.draw.line(context.screen, RED, ENEMY_MOKEPON_POSITION, PLAYER_MOKEPON_POSITION + self.offset_y)
+        pygame.draw.line(context.screen, RED,
+                         [ENEMY_MOKEPON_POSITION[0] + 100, ENEMY_MOKEPON_POSITION[1]+100],
+                         (PLAYER_MOKEPON_POSITION[0], PLAYER_MOKEPON_POSITION[1] + self.offset_y))
 
     def status(self, context, changed, enemy):
-        context.dialogue([f"{enemy.__class__.__name__}"])
+        super(Cut, self).status(context, changed, enemy)
+        context.dialogue([f"{enemy.__class__.__name__} has lost 45 defense!"])
+        enemy.defense -= 45
 
 
 

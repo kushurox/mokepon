@@ -177,6 +177,8 @@ class NPC(pygame.sprite.Sprite):
         self.identity = name
         if exists(f"assets/dialogue_Assets/{name}.png"):
             self.dialogue_image = pygame.image.load(f"assets/dialogue_Assets/{name}.png")
+        else:
+            print(f"assets/dialogue_Assets/{name}.png not found")
         self.current_tile = terrain
         self.current_tile.collide = True
         self.image = pygame.image.load(f"assets/npcs/{image_name}.png")
