@@ -164,7 +164,7 @@ class Battle:
             self.screen.blit(self.mokepon1.image, (50, 300 + self.u1))
             self.screen.blit(self.mokepon2.image, (400, 70 + self.u2))
         else:
-            self.screen.blit(player, (150, 150))  # Dialogue Player Position
+            self.screen.blit(player, (0, 150))  # Dialogue Player Position
         d.append('')
         index = 0
         cd = d[index]
