@@ -34,10 +34,16 @@ class Destroyer(Mokepon):
         self.rect = self.image.get_rect()
         self.attacks["Explosion"] = Explosion(self, dmg=self.atk, anim_time=3000)
 
+    def reset(self):
+        self.defense = 60
+        self.atk = 40
+        self.hp = 100
+
 
 class Byru(Mokepon):
     defense = 60
     atk = 40
+    hp = 120
     attacks = {}
 
     def __init__(self):
@@ -47,9 +53,14 @@ class Byru(Mokepon):
         self.attacks["Crimson Beam"] = CrimsonBeam(self, dmg=self.atk, anim_time=1500)
         self.attacks["Harden"] = Harden(self, dmg=0, anim_time=2000)
 
+    def reset(self):
+        self.defense = 60
+        self.atk = 40
+        self.hp = 120
+
 
 class Orb(Mokepon):
-    atk = 100
+    atk = 0
     attacks = {}
 
     def __init__(self):
@@ -57,6 +68,11 @@ class Orb(Mokepon):
         self.image = pygame.image.load("assets/battle_assets/green_mokepon.png")
         self.rect = self.image.get_rect()
         self.attacks["Explosion"] = Explosion(self, dmg=self.atk, anim_time=3000)
+
+    def reset(self):
+        self.hp = 100
+        self.defense = 60
+        self.atk = 40
 
 
 # TODO Change attack architecture

@@ -2,8 +2,8 @@ from random import randint
 
 import pygame
 
-from utils.color import RED
-from utils.constants import PLAYER_MOKEPON_POSITION, MOKEPON_SPRITE_SIZE
+from utils.color import RED, GREEN
+from utils.constants import PLAYER_MOKEPON_POSITION, MOKEPON_SPRITE_SIZE, ENEMY_MOKEPON_POSITION
 
 clock = pygame.time.Clock()
 
@@ -40,10 +40,10 @@ class Attack(pygame.sprite.Sprite):  # Inheriting from pygame.sprite.Sprite Clas
 
     def get_damage(self, defense):
         dmg = (self.dmg - defense) + randint(5, 15)
-        return dmg if self.dmg-defense > 0 else 0
+        return dmg if self.dmg-defense > 0 else 5
 
-    def status(self, context, changed):
-        pass
+    def status(self, context, changed, enemy):
+        context.dialogue([f"{self.mokepon.__class__.__name__} has done {changed} dmg!"])
 
 
 class Explosion(Attack):
@@ -86,9 +86,20 @@ class Harden(Attack):
                     PLAYER_MOKEPON_POSITION[1] + MOKEPON_SPRITE_SIZE//2)
         pygame.draw.circle(context.screen, RED, show_pos, self.offset_x)
 
-    def status(self, context, changed):
+    def status(self, context, changed, enemy):
         context.dialogue([f"{self.mokepon.__class__.__name__}'s defense has increased by 30!"])
         self.mokepon.defense += 30
+
+
+class Cut(Attack):
+    dmg_ratio = 0.3
+
+    def animate(self, context, dt, x, y):
+        self.offset_y += 100 * dt
+        pygame.draw.line(context.screen, RED, ENEMY_MOKEPON_POSITION, PLAYER_MOKEPON_POSITION + self.offset_y)
+
+    def status(self, context, changed, enemy):
+        context.dialogue([f"{enemy.__class__.__name__}"])
 
 
 

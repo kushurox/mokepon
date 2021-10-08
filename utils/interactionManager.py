@@ -142,17 +142,21 @@ class Battle:
         else:
             self.hp1 = (defender.hp / 100) * 300
         # self.dialogue([f"It did {changed} damage!"])
-        self.current_attack.status(self, changed)
+        self.current_attack.status(self, changed, defender)
         hp2 = pygame.draw.rect(self.screen, RED, (350, 0, self.hp2, 26), 13, 8)
         hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
         pygame.display.flip()
         self.turn = {1: 2, 2: 0}[self.turn]
         if self.mokepon1.hp <= 0:
-            self.dialogue(self.p2.victory_action(*self.p2.victory_action_args), self.p2.dialogue_image)
+            self.dialogue(self.p2.victory_action(self.p1, *self.p2.victory_action_args), self.p2.dialogue_image)
             self.battle = False
+            self.mokepon1.reset()
+            self.mokepon2.reset()
         elif self.mokepon2.hp <= 0:
-            self.dialogue(self.p2.defeat_action(*self.p2.defeat_args), self.p2.dialogue_image)
+            self.dialogue(self.p2.defeat_action(self.p2, *self.p2.defeat_args), self.p2.dialogue_image)
             self.battle = False
+            self.mokepon1.reset()
+            self.mokepon2.reset()
 
     def dialogue(self, d: list, player=None):
         self.screen.blit(self.bg, (0, 0))
@@ -183,7 +187,8 @@ class Battle:
             dt = clock.tick(30)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.battle = False
+                    pygame.quit()
+                    exit(0)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = event.pos
                     for atk in self.attacks1:

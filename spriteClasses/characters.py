@@ -1,4 +1,6 @@
+import pickle
 from itertools import cycle
+from os.path import exists
 from typing import Callable
 
 import pygame
@@ -12,6 +14,9 @@ dialogue_font = pygame.font.Font("assets/fonts/VPPixel-Simplified.otf", 32)
 
 
 class Player(pygame.sprite.Sprite):
+
+    flags = {}
+
     identity = "Protagonist-san"
     mokepon = None
 
@@ -36,6 +41,14 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, color: tuple, whole_area: Terrains, gender: int, camera: GameCamera):
         super(Player, self).__init__()
+
+        if exists("gamestate"):
+            with open("gamestate", "rb") as fp:
+                self.flags = pickle.load(fp)
+        else:
+            with open("gamestate", "wb") as fp:
+                self.flags = {"defeat_mihir": 0, "defeat_kushal": 0, "talk_kushal": 0}
+                pickle.dump(self.flags, fp)
 
         self.camera = camera
 
@@ -162,7 +175,8 @@ class NPC(pygame.sprite.Sprite):
         self.area.terrain_to_entity[terrain] = self
         self.dialogues = cycle(dialogues)
         self.identity = name
-        self.dialogue_image = pygame.image.load(f"assets/dialogue_Assets/{name}.png")
+        if exists(f"assets/dialogue_Assets/{name}.png"):
+            self.dialogue_image = pygame.image.load(f"assets/dialogue_Assets/{name}.png")
         self.current_tile = terrain
         self.current_tile.collide = True
         self.image = pygame.image.load(f"assets/npcs/{image_name}.png")
@@ -206,33 +220,48 @@ class NPC(pygame.sprite.Sprite):
 
 
 def kushuroxEvil(npc: NPC, *args):
-    npc.dialogues = cycle(kd2 + [False])
+    if not args[0].flags["defeat_kushal"]:
+        npc.dialogues = cycle(kd2 + [False])
     return {'event': "battle", "player1": args[0], "player2": npc}
 
 
 def kushuroxChild(npc: NPC, *args):
-    if npc.id == 1:
-        print("Nothing")
+    if not args[0].flags["defeat_mihir"]:
+        args[0].flags["talk_kushal"] = 1
+        with open("gamestate", "wb") as fp:
+            pickle.dump(args[0].flags, fp)
+
     else:
         npc.set_end_action(kushuroxEvil, *args)
         npc.end_action(npc, *args)
         npc.set_start_action(None)
 
 
-def kushuroxLose(npc: NPC):
+def kushuroxLose(npc: NPC, *args):
     npc.dialogues = cycle(kd4 + [False])
+    args[0].flags["defeat_kushal"] = 1
+    with open("gamestate", "wb") as fp:
+        pickle.dump(args[0].flags, fp)
     return ["What!?", "I have lost!?", "The Great kushurox!?",
             "You will pay for this!", "...", "...", "kushurox has disappeared"]
 
 
-def kushuroxWin():
+def kushuroxWin(npc: NPC):
     return ["You were 100 years early to take me on", "Better luck next time kid",
             "After all it is i kushurox", "You never Stood a chance", "Farewell"]
 
 
 def meerBattle(npc: NPC, *args):
-    return {'event': "battle", "player1": args[0], "player2": npc}
+    if args[0].flags["talk_kushal"]:
+        return {'event': "battle", "player1": args[0], "player2": npc}
 
 
-def meer(npc: NPC):
+def meerWin(npc: NPC):
     return [".......", "--------", "........"]
+
+
+def meerLose(npc, *args):
+    args[0].flags["defeat_mihir"] = 1
+    with open("gamestate", "wb") as fp:
+        pickle.dump(args[0].flags, fp)
+    return ["Final", "Warning", "Stop"]

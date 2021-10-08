@@ -5,10 +5,10 @@ from pygame.time import Clock
 
 import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player, NPC, kushuroxChild, \
-    kushuroxWin, kushuroxLose, meerBattle, meer  # All the Game entities will be defined here
+    kushuroxWin, kushuroxLose, meerBattle, meerLose, meerWin  # All the Game entities will be defined here
 from spriteClasses.mokepons import Destroyer, Byru, Orb
 from utils.camera import GameCamera
-from utils.constants import window_size, kd1, kd3
+from utils.constants import window_size, kd1, kd3, kd2, kd4, ObjectDialogues
 from utils.interactionManager import InteractionManager, Battle
 from utils.terrains import load_map
 
@@ -53,6 +53,13 @@ menuCanvas = pygame.Surface((1400, 900))
 #  NPC INIT
 npcs = pygame.sprite.Group()
 # -----------------------#
+
+if p1.flags["defeat_mihir"]:
+    kd1 = kd2
+
+if p1.flags["defeat_kushal"]:
+    kd1 = kd4
+
 kushurox = NPC(pos1, whole_map, kd1, 1, "kosupai", "kushurox")
 npcs.add(kushurox)
 kushurox.set_start_action(kushuroxChild, p1)
@@ -60,13 +67,18 @@ kushurox.set_victory_action(kushuroxWin)
 kushurox.set_defeat_action(kushuroxLose, p1)
 kushurox.mokepon = Destroyer()
 # -----------------------#
-meep = NPC(pos2, whole_map, kd3, 3, "mierpng", "mihir")
+meep = NPC(pos2, whole_map, kd3, 2, "mierpng", "mihir")
 meep.set_end_action(meerBattle, p1)
-meep.set_victory_action(meer, p1)
-meep.set_defeat_action(meer, p1)
+meep.set_victory_action(meerWin, p1)
+meep.set_defeat_action(meerLose, p1)
 meep.mokepon = Orb()
 npcs.add(meep)
 # NPC INIT END
+
+# Random Objects
+dummy_bomb = NPC(whole_map.get_terrain(500, 500), whole_map,
+                 ObjectDialogues.dummy_bomb, 6, "objects/dummy_bomb", "bomb")
+npcs.add(dummy_bomb)
 
 
 # MOVEMENT INIT
@@ -139,6 +151,8 @@ def mainmenu():
             if event.type == pygame.QUIT:
                 run = False
                 main_menu = False
+                pygame.quit()
+                exit(0)
             elif event.type == pygame.MOUSEMOTION:
                 mx, my = event.pos
                 if start_game_rect.collidepoint(mx, my):
@@ -212,10 +226,14 @@ while run:
             battle = True
 
             print(f"Player 2 id {res['player2'].id}")
-            if res['player2'].id == 2:
-                print("Music played")
+            if res['player2'].id == 1:
                 song.stop()
                 song = pygame.mixer.Sound("assets/music/kushurox.mp3")
+                song.play(-1)
+                song.set_volume(0.3)
+            elif res['player2'].id == 2:
+                song.stop()
+                song = pygame.mixer.Sound("assets/music/meer.mp3")
                 song.play(-1)
                 song.set_volume(0.3)
 
