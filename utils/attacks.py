@@ -90,9 +90,12 @@ class Harden(Attack):
         context.dialogue([f"{self.mokepon.__class__.__name__}'s defense has increased by 30!"])
         self.mokepon.defense += 30
 
+    def get_damage(self, defense):
+        return 0
+
 
 class Cut(Attack):
-    dmg_ratio = 0.3
+    dmg_ratio = 1
 
     def animate(self, context, dt, x, y):
         self.offset_y += 100 * dt

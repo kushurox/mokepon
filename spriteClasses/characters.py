@@ -258,7 +258,7 @@ def meerBattle(npc: NPC, *args):
         return {'event': "battle", "player1": args[0], "player2": npc}
 
 
-def meerWin(npc: NPC):
+def meerWin(npc: NPC, *args):
     return [".......", "--------", "........"]
 
 

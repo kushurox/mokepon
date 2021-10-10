@@ -142,7 +142,6 @@ class Battle:
         else:
             self.hp1 = (defender.hp / 100) * 300
         self.current_attack.status(self, changed, defender)
-        print(defender.defense)
         hp2 = pygame.draw.rect(self.screen, RED, (350, 0, self.hp2, 26), 13, 8)
         hp1 = pygame.draw.rect(self.screen, BLUE, (0, 0, self.hp1, 26), 13, 8)
         pygame.display.flip()

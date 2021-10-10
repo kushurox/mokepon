@@ -3,6 +3,8 @@ from math import sin, cos, radians
 import pygame
 from pygame.time import Clock
 
+from random import randint
+
 import utils.color as colors  # Use the colors.py to define ur color
 from spriteClasses.characters import Player, NPC, kushuroxChild, \
     kushuroxWin, kushuroxLose, meerBattle, meerLose, meerWin  # All the Game entities will be defined here
@@ -76,10 +78,30 @@ npcs.add(meep)
 # NPC INIT END
 
 # Random Objects
-dummy_bomb = NPC(whole_map.get_terrain(500, 350), whole_map,
+dummy_bomb = NPC(whole_map.get_terrain(100, 550), whole_map,
                  ObjectDialogues.dummy_bomb, 6, "objects/dummy_bomb", "bomb")
 npcs.add(dummy_bomb)
 
+
+def gen_npc(tiles=[], npclist=[]):
+    try:
+        for i in range(5):
+            nx = randint(400, 1000)
+            ny = randint(50, 850)
+            tile = whole_map.get_terrain(nx, ny)
+            if tile in tiles:
+                gen_npc(tiles, npclist)
+            else:
+                npclist.append(NPC(tile, whole_map, ["none"], -1, "cyborgg", "idk"))
+                tiles.append(tile)
+
+    except AttributeError:
+        return npclist
+    return npclist
+
+
+for npc in gen_npc():
+    npcs.add(npc)
 
 # MOVEMENT INIT
 ts = 500
