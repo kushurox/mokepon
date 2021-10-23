@@ -10,7 +10,7 @@ from spriteClasses.characters import Player, NPC, kushuroxChild, \
     kushuroxWin, kushuroxLose, meerBattle, meerLose, meerWin  # All the Game entities will be defined here
 from spriteClasses.mokepons import Destroyer, Byru, Orb
 from utils.camera import GameCamera
-from utils.constants import window_size, kd1, kd3, kd2, kd4, ObjectDialogues
+from utils.constants import window_size, kd1, kd3, kd2, kd4, kd5, ObjectDialogues
 from utils.interactionManager import InteractionManager, Battle
 from utils.terrains import load_map
 
@@ -47,6 +47,7 @@ p1.mokepon = Byru()
 # npc pos
 pos1 = whole_map.get_terrain(150, 800)
 pos2 = whole_map.get_terrain(1150, 750)
+pos3 = whole_map.get_terrain(600, 300)
 # npc pos end
 
 
@@ -75,6 +76,9 @@ meep.set_victory_action(meerWin, p1)
 meep.set_defeat_action(meerLose, p1)
 meep.mokepon = Orb()
 npcs.add(meep)
+# -----------------------#
+Diona = NPC(pos3, whole_map, kd5, 3, "cyborgg", "Diona")
+npcs.add(Diona)
 # NPC INIT END
 
 # Random Objects

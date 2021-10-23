@@ -62,7 +62,7 @@ class Battle:
     hp2 = 300
 
     def loading_screen(self):
-        angular_vel = 90  # per second
+        angular_vel = 120  # per second
         angle = 0
         self.screen.fill(DEFAULT_CONTAINER)
         dt = clock.tick(60) / 1000

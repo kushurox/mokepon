@@ -34,9 +34,10 @@ class Destroyer(Mokepon):
         self.rect = self.image.get_rect()
         self.attacks["Explosion"] = Explosion(self, dmg=self.atk, anim_time=3000)
 
+
     def reset(self):
-        self.defense = 60
-        self.atk = 40
+        self.defense = 40
+        self.atk = 95
         self.hp = 100
 
 
@@ -61,6 +62,7 @@ class Byru(Mokepon):
 
 class Orb(Mokepon):
     atk = 100
+    defense = 32
     attacks = {}
 
     def __init__(self):
@@ -71,8 +73,8 @@ class Orb(Mokepon):
 
     def reset(self):
         self.hp = 100
-        self.defense = 60
-        self.atk = 40
+        self.defense = 32
+        self.atk = 100
 
 
 # TODO Change attack architecture

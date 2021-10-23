@@ -15,7 +15,10 @@ kd2 = ["You Fool!, I just used you for my gain", "You thought i was just a kid",
 
 kd4 = ["Pft, You just got Lucky", "Time for a rematch"]
 
-kd3 = ["...","---","..."]
+kd3 = ["......","sudo ./--Terminate--","......Running..."]
+
+kd5 = ["HI!!!!!!","Here to have a good time or a bad time?","Well whatever you do,", "be careful theres a creepy robot ahead",
+       "Well I am a robot","But you get the idea" ,"Its not hot or human like"]
 
 MOKEPON_SPRITE_SIZE = 200
 

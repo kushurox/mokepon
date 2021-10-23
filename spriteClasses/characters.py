@@ -259,11 +259,11 @@ def meerBattle(npc: NPC, *args):
 
 
 def meerWin(npc: NPC, *args):
-    return [".......", "--------", "........"]
+    return [".......", "--git--", "........",".....gud....."]
 
 
 def meerLose(npc, *args):
     args[0].flags["defeat_mihir"] = 1
     with open("gamestate", "wb") as fp:
         pickle.dump(args[0].flags, fp)
-    return ["Final", "Warning", "Stop"]
+    return ["......Final.....","!@#!%^%&^*(" ,"@%^...Warning..@$#%", "@#%#&^$%&()&^%...Stop......","......."]

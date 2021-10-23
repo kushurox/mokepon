@@ -1,3 +1,4 @@
+import random
 from random import randint
 
 import pygame
@@ -73,6 +74,10 @@ class CrimsonBeam(Attack):
         self.offset_y -= 50 * dt
         context.screen.blit(self.image, (x + self.offset_x, y + self.offset_y))  # Showing the drawing on the screen
 
+    def get_damage(self, defense):
+        dmg = (self.dmg - defense) + randint(5, 17)
+        return dmg if self.dmg-defense > 0 else 5
+
 
 class Harden(Attack):
     dmg_ratio = 0
@@ -107,6 +112,10 @@ class Cut(Attack):
         super(Cut, self).status(context, changed, enemy)
         context.dialogue([f"{enemy.__class__.__name__} has lost 45 defense!"])
         enemy.defense -= 45
+
+    #def get_damage(self, defense):
+     #   return random.randint(20,50)
+
 
 
 
