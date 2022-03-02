@@ -240,7 +240,7 @@ while run:
         p1.update(dt)
         whole_map.draw(menuCanvas)
 
-        screen.fill(colors.BLACK)
+        screen.fill(colors.DEFAULT_CONTAINER)
 
         p1.move(pmx, pmy, pkx, pky, movementX, movementY, wt)
         p1.draw(menuCanvas)
