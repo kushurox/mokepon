@@ -21,47 +21,46 @@ ids = {
     'hill3.png': 9,
     'path1.png': 10,
     'path2.png': 11,
-    'pathend_d.png':12,
-    'pathend_l.png':13,
-    'pathend_r.png':14,
-    'pathend_t.png':15,
-    't_d.png':16,
-    't_l.png':17,
-    't_r.png':18,
-    't_t.png':19,
-    'crossroad.png':20,
-    'elbow1.png':21,
-    'elbow2.png':22,
-    'elbow3.png':23,
-    'elbow4.png':24,
+    'pathend_d.png': 12,
+    'pathend_l.png': 13,
+    'pathend_r.png': 14,
+    'pathend_t.png': 15,
+    't_d.png': 16,
+    't_l.png': 17,
+    't_r.png': 18,
+    't_t.png': 19,
+    'crossroad.png': 20,
+    'elbow1.png': 21,
+    'elbow2.png': 22,
+    'elbow3.png': 23,
+    'elbow4.png': 24,
     'stairs.png': 25,
-    'haus_8.png' :26,
-    'haus_9.png' :27,
-    'haus_10.png' :28,
-    'haus_11.png' :29,
-    'haus_14.png' :30,
-    'haus_15.png' :31,
-    'haus_16.png' :32,
-    'haus_17.png' :33,
-    'haus_20.png':34,
-    'haus_21.png':35,
-    'haus_22.png':36,
-    'haus_23.png':37,
-    'haus_26.png':38,
-    'haus_27.png':39,
-    'door.png':   40,
-    'haus_29.png':41,
-    'bed1.png':42,
-    'bed2.png':43,
-    'box.png':44,
-    'floor.png':45,
-    'carpet.png':46
+    'haus_8.png': 26,
+    'haus_9.png': 27,
+    'haus_10.png': 28,
+    'haus_11.png': 29,
+    'haus_14.png': 30,
+    'haus_15.png': 31,
+    'haus_16.png': 32,
+    'haus_17.png': 33,
+    'haus_20.png': 34,
+    'haus_21.png': 35,
+    'haus_22.png': 36,
+    'haus_23.png': 37,
+    'haus_26.png': 38,
+    'haus_27.png': 39,
+    'door.png': 40,
+    'haus_29.png': 41,
+    'bed1.png': 42,
+    'bed2.png': 43,
+    'box.png': 44,
+    'floor.png': 45,
+    'carpet.png': 46
 }
 
+# door.png is door
 
-#door.png is door
-
-collide_id = [2,3,4,5,6,7,8,9,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44, -1]
+collide_id = [2, 3, 4, 5, 6, 7, 8, 9, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, -1]
 
 rev_ids = {-1: pygame.image.load("assets/misc/null.png")}
 
@@ -157,5 +156,3 @@ def load_map(map_name: str) -> Terrains:
             _map.add(t)
         y += 50
     return _map
-
-

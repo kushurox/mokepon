@@ -85,6 +85,9 @@ npcs.add(Diona)
 dummy_bomb = NPC(whole_map.get_terrain(100, 550), whole_map,
                  ObjectDialogues.dummy_bomb, 6, "objects/dummy_bomb", "bomb")
 npcs.add(dummy_bomb)
+amazon = NPC(whole_map.get_terrain(100, 450), whole_map,
+             ObjectDialogues.amazon_box, 6, "objects/box", "box")
+npcs.add(amazon)
 
 
 def gen_npc(tiles=[], npclist=[]):
